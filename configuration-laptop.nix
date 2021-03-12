@@ -101,6 +101,23 @@ in {
     ];
   };
 
+  services.acpid = {
+    enable = true;
+    logEvents = true;
+    acEventCommands = ''
+      # ac_adapter ACPI0003:00 00000080 00000000
+      export PATH=${pkgs.gawk}/bin:${pkgs.linuxPackages_5_10.cpupower}/bin:$PATH 
+
+      AC_STATUS=$(echo $1 | awk '{print $4}')
+
+      if [[ $AC_STATUS == 00000001 ]]; then
+        cpupower frequency-set --max 2100000 --governor performance
+      else
+        cpupower frequency-set --max 1400000 --governor powersave
+      fi
+    '';
+  };
+
   services.openvpn.servers = {
     mj = {
       config = "config /etc/openvpn/mj.conf";

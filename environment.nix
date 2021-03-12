@@ -6,7 +6,6 @@ in {
     alias wtr='curl -H "Accept-Language: ru" wttr.in/Санкт-Петербург'
     alias rr='sudo nixos-rebuild switch -I nixos-config=/home/alex/nixos/configuration.nix'
     alias mj_clamav='/home/alex/work/scripts/python/clamav.py'
-#    ipmi() { xhost +local:; docker run --rm --network=host --tty --interactive --user 1000:997 --env DISPLAY=$DISPLAY --volume /etc/localtime:/etc/localtime:ro --volume /tmp/.X11-unix:/tmp/.X11-unix docker-registry.intr/utils/nix-ipmi:master phaeY6Aumie6tePu $1; }
     export MJ_BILLING_LOGIN="${secrets.hms_login}"
     export MJ_BILLING_PASSWD="${secrets.hms_pass}"
     export CERBERUS_KEY='${secrets.cerb_key}'
@@ -16,7 +15,8 @@ in {
     export SYSTEMD_PAGER=
     export NIXOS_CONFIG="/home/alex/nixos/configuration.nix"
     export LIBVIRT_DEFAULT_URI='qemu:///system'
-    
+
+    export HISTCONTROL=ignoreboth:erasedups
     export HISTSIZE=100000
     export HISTFILESIZE=100000
     export NIXPKGS_ALLOW_UNFREE=1
