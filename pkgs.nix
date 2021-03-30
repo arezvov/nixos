@@ -303,6 +303,7 @@
     nvme-cli
     ventoy
     exfat-utils
+    clair
   ];
   fonts.fonts = with pkgs; [ jetbrains-mono siji ];
 }
