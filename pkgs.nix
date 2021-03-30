@@ -304,6 +304,7 @@
     ventoy
     exfat-utils
     clair
+    libcgroup
   ];
   fonts.fonts = with pkgs; [ jetbrains-mono siji ];
 }
