@@ -36,6 +36,8 @@ in {
       ./users.nix
       #./auto-update.nix
       ./services.nix
+      ./openvpn.nix
+      ./hosts.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -93,6 +95,7 @@ in {
   services.actkbd = {
     enable = true;
     bindings = with pkgs; [
+      # TODO: Move it in i3 config
       { keys = [ 225 ]; events = [ "key" ]; command = "/run/current-system/sw/bin/light -A 5"; }
       { keys = [ 224 ]; events = [ "key" ]; command = "/run/current-system/sw/bin/light -U 5"; }
       { keys = [ 113 ]; events = [ "key" ]; command = "${sudo}/bin/sudo -u alex ${pa-mute}"; }

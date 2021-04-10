@@ -305,6 +305,7 @@
     exfat-utils
     clair
     libcgroup
+    vmtouch
   ];
   fonts.fonts = with pkgs; [ jetbrains-mono siji ];
 }
