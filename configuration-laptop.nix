@@ -151,6 +151,7 @@ in {
     requireSignedBinaryCaches = false;
     extraOptions = ''
       binary-caches = https://cache.nixos.org/ http://jenkins.intr:5000/
+      experimental-features = nix-command flakes
     '';
   };
 
