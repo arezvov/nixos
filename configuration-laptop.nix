@@ -29,7 +29,7 @@ in {
 
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+      ./hardware-configuration-laptop.nix
       ./pkgs.nix
       ./pkgs.override.nix
       ./environment.nix

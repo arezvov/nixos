@@ -306,6 +306,7 @@
     clair
     libcgroup
     vmtouch
+    spotify
   ];
   fonts.fonts = with pkgs; [ jetbrains-mono siji ];
 }
