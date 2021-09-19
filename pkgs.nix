@@ -1,4 +1,4 @@
-{ config, lib, pkgs, mkDerivation, ... }:
+{ config, lib, pkgs, pkgs-master, mkDerivation, ... }:
 {
   environment.systemPackages = with pkgs; [
     wget
@@ -81,7 +81,6 @@
     ansible
     openssl
     quassel
-    weechat
     # palemoon
     # streamlink
     imagemagick
@@ -134,7 +133,6 @@
     wireshark
     pass
     gnupg
-    iotop
     ntfs3g
     blktrace
     p7zip
@@ -182,8 +180,8 @@
     rr
     playerctl
     zsh
-    terraform-full
-    terraform-provider-libvirt
+    pkgs-master.terraform-full
+    pkgs-master.terraform-provider-libvirt
     cdrkit
     ipcalc
     bridge-utils

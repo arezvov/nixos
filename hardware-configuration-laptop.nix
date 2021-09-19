@@ -17,36 +17,34 @@
     tmpOnTmpfs = true;
     kernelModules = [ "kvm-amd" ];
   };
+  
   boot.kernelParams = [
-#    "isolcpus=1,2,3,4,5,6,7,8,9,10,11"
-#    "loglevel=7"
+  # "isolcpus=1,2,3,4,5,6,7,8,9,10,11"
+  # "loglevel=7"
   ];
   boot.consoleLogLevel = 7;
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/1f70e253-e03a-4bf3-8682-abe1dbbd8a49";
+  fileSystems = {
+    "/" = { 
+      device = "/dev/disk/by-uuid/1f70e253-e03a-4bf3-8682-abe1dbbd8a49";
       fsType = "ext4";
     };
 
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/D893-229C";
+    "/boot" = { 
+      device = "/dev/disk/by-uuid/D893-229C";
       fsType = "vfat";
     };
-
-  hardware.bluetooth.enable = true;
-  hardware.pulseaudio = {
-    enable = true;
-    package = pkgs.pulseaudioFull;
-    systemWide = true;
   };
-#  services.pipewire = {
-#    enable = true;
-#    alsa = {
-#      enable = true;
-#      support32Bit = true;
-#    };
-#    pulse.enable = true;
-#  };
+
+  hardware = {
+    bluetooth.enable = true;
+    pulseaudio = {
+      enable = true;
+      package = pkgs.pulseaudioFull;
+      systemWide = true;
+    };
+  };
+
   swapDevices = [ ];
 
   nix.maxJobs = lib.mkDefault 12;

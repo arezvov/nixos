@@ -6,7 +6,7 @@
       . ${pkgs.nixUnstable}/share/bash-completion/completions/nix
     '';
     shellAliases = {
-      rr = "sudo nixos-rebuild switch --flake /home/alex/nixos#laptop -L";
+      rr = "sudo nixos-rebuild switch --flake /home/alex/nixos#$(hostname) -L";
     };
   };
 }

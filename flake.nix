@@ -15,11 +15,14 @@
       inherit system;
       config.allowUnfree = true; 
     };
+    pkgs-master = import nixpkgs-master {
+      inherit system;
+    };
     system = "x86_64-linux";
   in {
     nixosConfigurations = {
       laptop = inputs.nixpkgs.lib.nixosSystem {
-        inherit system pkgs;
+        inherit system;
         modules = [
           ./configuration-laptop.nix
           inputs.home-manager.nixosModules.home-manager
@@ -29,7 +32,9 @@
             home-manager.users.alex = import ./home-manager/default.nix;
           }
         ];
-        specialArgs = { inherit inputs pkgs; };
+        specialArgs = { 
+          inherit inputs pkgs pkgs-master self;
+        };
       };
     };
 
