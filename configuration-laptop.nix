@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 let
     pa-volume = pkgs.writeScript "pa-volume" ''
@@ -23,7 +23,7 @@ let
         done
     '';
 
-    secrets = import ./secrets.nix;
+    secrets = inputs.secrets.secrets;
 in {
   nixpkgs.config.allowUnfree = true;
 
@@ -31,10 +31,8 @@ in {
     [ # Include the results of the hardware scan.
       ./hardware-configuration-laptop.nix
       ./pkgs.nix
-      ./pkgs.override.nix
       ./environment.nix
       ./users.nix
-      #./auto-update.nix
       ./services.nix
       ./openvpn.nix
       ./hosts.nix
@@ -60,9 +58,8 @@ in {
 
   hardware.opengl.driSupport32Bit = true;
   programs = {
-    steam.enable = true;
+    # steam.enable = true;
     adb.enable = true;
-    mininet.enable = true;
   };
 
   zramSwap = {
@@ -71,22 +68,36 @@ in {
     memoryPercent = 100;
   };
 
+  security.wrappers = {
+    ubridge = {
+      source  = "${pkgs.ubridge}/bin/ubridge";
+      capabilities = "cap_net_admin,cap_net_raw=ep";
+    };
+  };
+
   networking = {
     hostName = "laptop";
     useDHCP = false;
-    interfaces.vswitch0.useDHCP = false;
-    interfaces.wlp1s0.useDHCP = true;
+    interfaces.wlan0.useDHCP = true;
 
-    wireless.enable = true;
-    wireless.networks = {
-      "${secrets.home_wifi_ssid}" = {
-        psk = secrets.home_wifi_pass;
-        priority = 0;
-      };
+    wireless = {
+      iwd.enable = true;
+      # enable = true;
+      networks = {
+        "${secrets.home_wifi_ssid}" = {
+          psk = secrets.home_wifi_pass;
+          priority = 0;
+        };
 
-      "${secrets.smart_wifi_ssid}" = {
-        psk = secrets.smart_wifi_pass;
-        priority = 100;
+        "${secrets.smart_wifi_ssid}" = {
+          psk = secrets.smart_wifi_pass;
+          priority = 100;
+        };
+
+        "JuicySmoke" = {
+          psk = "juicysmoke";
+          priority = 50;
+        };
       };
     };
   };
@@ -144,11 +155,11 @@ in {
     synaptics.enable = true;
   };
 
-
   nix = {    
     gc.automatic = true;
     gc.options = "--delete-older-than 14d";
     requireSignedBinaryCaches = false;
+    package = pkgs.nixUnstable;
     extraOptions = ''
       binary-caches = https://cache.nixos.org/ http://jenkins.intr:5000/
       experimental-features = nix-command flakes

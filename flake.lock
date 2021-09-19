@@ -1,0 +1,90 @@
+{
+  "nodes": {
+    "home-manager": {
+      "inputs": {
+        "nixpkgs": "nixpkgs"
+      },
+      "locked": {
+        "lastModified": 1631740142,
+        "narHash": "sha256-FnwtaJ+fZw2QzsCqGJW4kJd9hXiPxPgfi+9dwratk28=",
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "rev": "371576cdc2580ba93a38e28da8ece2129f558815",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1631909621,
+        "narHash": "sha256-VvM2W4r7B8+uS69dxEe2yvJjtoSqju/+P+SVf8wF8UI=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "3f953b0f60b4c252b6a8b05de183486130ba7545",
+        "type": "github"
+      },
+      "original": {
+        "id": "nixpkgs",
+        "type": "indirect"
+      }
+    },
+    "nixpkgs-master": {
+      "locked": {
+        "lastModified": 1631824410,
+        "narHash": "sha256-7WGqcCQ3IFoOtXmLfBSp7drzGKjQDN6uSqSnHomvOJM=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "5204dee265eaae6a9e0acfffd7ca9e424532402c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "master",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_2": {
+      "locked": {
+        "lastModified": 1631785487,
+        "narHash": "sha256-VSKEvOtaY/roDxEHFxXh6GguOqqWCJZ3E06fBdKu8+I=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "79c444b5bdeaba142d128afddee14c89ecf2a968",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "home-manager": "home-manager",
+        "nixpkgs": "nixpkgs_2",
+        "nixpkgs-master": "nixpkgs-master",
+        "secrets": "secrets"
+      }
+    },
+    "secrets": {
+      "locked": {
+        "lastModified": 0,
+        "narHash": "sha256-Npr6k+HhAAfBcHGJ0FR2ms867BUXem5GMtuaKDo0Csw=",
+        "type": "git",
+        "url": "file:///home/alex/git/nixos-secrets"
+      },
+      "original": {
+        "type": "git",
+        "url": "file:///home/alex/git/nixos-secrets"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}

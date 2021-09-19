@@ -1,14 +1,14 @@
-{ config, ... }: 
+{ config, inputs, ... }: 
 
 let
-  secrets = import ./secrets.nix;
+  secrets = inputs.secrets.secrets;
 in {
   environment.etc = {
     "openvpn/mj.crt" = {
       text = secrets.mj_openvpn_cert;
     };
 
-    "openvpn/auth" = {
+    "openvpn/auth-mj" = {
       text = ''
         ${secrets.hms_login}
         ${secrets.hms_pass}
@@ -24,7 +24,7 @@ in {
         remote ${secrets.mj_openvpn_host} 
         tls-version-min 1.0
         ca "/etc/openvpn/mj.crt"
-        auth-user-pass /etc/openvpn/auth
+        auth-user-pass /etc/openvpn/auth-mj
         comp-lzo
         mssfix
         auth SHA1

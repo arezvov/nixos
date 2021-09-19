@@ -1,11 +1,9 @@
 { config, lib, pkgs, mkDerivation, ... }:
-
 {
   environment.systemPackages = with pkgs; [
     wget
     libguestfs-with-appliance
     vim
-    myNeovim
     tdesktop
     slack
     xfce4-14.xfce4-terminal
@@ -17,7 +15,6 @@
     git
     openvpn
     nix-bash-completions
-    php74Packages.composer2
     xsel
     dunst
     libnotify
@@ -30,7 +27,6 @@
     whois
     ltrace
     sysbench
-    emacs
     simplescreenrecorder
     thunderbird
     feh
@@ -58,7 +54,7 @@
     jre
     adoptopenjdk-icedtea-web
     xorg.xbacklight
-    ipmi
+    # ipmi
     dpkg
     unzip
     pandoc
@@ -81,112 +77,13 @@
     file
     sqlite
     nixfmt
-    (with import (builtins.fetchTarball {
-      url =
-        "https://github.com/nixos/nixpkgs/archive/8686922e68dfce2786722acad9593ad392297188.tar.gz";
-    }) {
-      overlays = [
-        (self: super: {
-          cerbapi = (with super;
-            python3.pkgs.buildPythonPackage rec {
-              pname = "cerbapi";
-              version = "1.0.9";
-              src = python3.pkgs.fetchPypi {
-                inherit pname version;
-                sha256 = "1c5xahjfb60vrwn7hj0n4s66dyzsx81gai7af564n8pkbdylcz37";
-              };
-              doCheck = false;
-            });
-          clamd = (with super;
-            python3.pkgs.buildPythonPackage rec {
-              pname = "clamd";
-              version = "1.0.2";
-              src = python3.pkgs.fetchPypi {
-                inherit pname version;
-                sha256 = "0q4myb07gn55v9mkyq83jkgfpj395vxxmshznfhkajk82kc2yanq";
-              };
-              doCheck = false;
-            });
-          vk-api = (with super;
-            python3.pkgs.buildPythonPackage rec {
-              pname = "vk_api";
-              version = "11.8.0";
-              src = python3.pkgs.fetchPypi {
-                inherit pname version;
-                sha256 =
-                  "1c79a607eed95e7b29bb1068167e7f8398a86cf5ed45910be2c6e03ecd0b0447";
-              };
-              doCheck = false;
-              propagatedBuildInputs =
-                [ python37Packages.six python37Packages.requests ];
-            });
-          ytmusicapi = (with super;
-            python3.pkgs.buildPythonPackage rec {
-              pname = "ytmusicapi";
-              version = "0.8.0";
-              src = python3.pkgs.fetchPypi {
-                inherit pname version;
-                sha256 =
-                  "d87d2ab108d39ad9c19cdefdcdbf6a766ca5711f12c540ee09752ce78118a3d7";
-              };
-              doCheck = false;
-              buildInputs = [ python37Packages.requests ];
-            });
-          tg-bot-api = (with super;
-            python3.pkgs.buildPythonPackage rec {
-              pname = "python-telegram-bot";
-              version = "12.7";
-              src = python3.pkgs.fetchPypi {
-                inherit pname version;
-                sha256 =
-                  "218b0583afb8baeefe6f2f1ddd8f1bb1ae30f0af3ce9160a372abd2cdf258eef";
-              };
-              doCheck = false;
-              buildInputs = [
-                python37Packages.cryptography
-                python37Packages.certifi
-                python37Packages.future
-                python37Packages.tornado
-                python37Packages.decorator
-              ];
-            });
-        })
-      ];
-    };
-
-      python37.withPackages (ps:
-        with ps; [
-          pydbus
-          notify2
-          cerbapi
-          pymysql
-          pyopenssl
-          pip
-          setuptools
-          slackclient
-          alerta
-          certifi
-          pexpect
-          six
-          clamd
-          tabulate
-          vk-api
-          tg-bot-api
-          imaplib2
-          chardet
-          ytmusicapi
-          beautifulsoup4
-          pika
-          future
-          decorator
-        ]))
     teamviewer
     ansible
     openssl
     quassel
     weechat
     # palemoon
-    streamlink
+    # streamlink
     imagemagick
     libreoffice
     parallel
@@ -202,6 +99,7 @@
     bfg-repo-cleaner
     gnumake
     iotop
+    iotop-c
     perl
     valgrind
     atom
@@ -242,9 +140,8 @@
     p7zip
     tmux
     pinentry-curses
-    steam
+    # steam
     jetbrains.clion
-    multibootusb
     tmux-xpanes
     sysbench
     lm_sensors
@@ -265,7 +162,9 @@
     teams
     openttd
     minikube
+    # docker-machine-kvm2
     kubectl
+    kubernetes-helm
     linuxPackages_5_10.cpupower
     linuxPackages_5_10.bpftrace
     linuxPackages_5_10.sysdig
@@ -283,7 +182,7 @@
     rr
     playerctl
     zsh
-    terraform
+    terraform-full
     terraform-provider-libvirt
     cdrkit
     ipcalc
@@ -301,12 +200,17 @@
     sysstat
     efibootmgr
     nvme-cli
-    ventoy
     exfat-utils
     clair
     libcgroup
     vmtouch
     spotify
+    pulseaudioFull
+    noisetorch
+    prometheus
+    sshpass
+    ubridge
+    vpcs
   ];
   fonts.fonts = with pkgs; [ jetbrains-mono siji ];
 }
