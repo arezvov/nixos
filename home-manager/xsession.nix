@@ -105,6 +105,9 @@
         command = "systemctl --user restart polybar"; 
         always = true; 
         notification = true;
+      } {
+        command = "setxkbmap \"us,ru\" \",winkeys\" \"grp:alt_shift_toggle\"";
+        always = true;
       }];
     };
     extraConfig = ''

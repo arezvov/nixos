@@ -6,6 +6,7 @@
     ./polybar.nix
     ./xsession.nix
     ./alacritty.nix
+    ./dunst.nix
   ];
 
   programs = {
@@ -33,6 +34,9 @@
   };
   services = {
     mpris-proxy = {
+      enable = true;
+    };
+    clipmenu = {
       enable = true;
     };
   };
