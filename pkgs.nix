@@ -4,7 +4,7 @@
     wget
     libguestfs-with-appliance
     vim
-    tdesktop
+    pkgs-master.tdesktop
     slack
     xfce4-14.xfce4-terminal
     vscode
@@ -209,6 +209,9 @@
     sshpass
     ubridge
     vpcs
+    python39Packages.pip
+    python39Packages.python-gitlab
+    (python39.withPackages (ps: with ps; [ pip python-gitlab ]))
   ];
   fonts.fonts = with pkgs; [ jetbrains-mono siji ];
 }
