@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 
 {
   xsession.windowManager.i3 = {
@@ -96,7 +96,9 @@
         };
       };
       modifier = "Mod4";
-      bars = [ ];
+      bars = [{
+        command = "${pkgs.polybarFull}/bin/polybar";
+      }];
       terminal = "alacritty";
       workspaceAutoBackAndForth = true;
       startup = [ {
