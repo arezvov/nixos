@@ -110,7 +110,7 @@
     nmap-graphical
     gtk2
     gtk2-x11
-    discord
+    pkgs-master.discord
     gnome3.nautilus
     mono6
     screen

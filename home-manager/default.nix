@@ -14,6 +14,11 @@
       enable = true;
       userEmail = "alex@rezvov.ru";
       userName = "Alexander Rezvov";
+      extraConfig = {
+        init = {
+          defaultBranch = "master";
+        };
+      };
     };
 
     alacritty = {
@@ -25,6 +30,7 @@
       plugins = with pkgs.vimPlugins; [
         vim-nix
         YouCompleteMe
+        vim-commentary
       ];
       extraConfig = ''
         au BufNewFile,BufRead Jenkinsfile setf groovy
