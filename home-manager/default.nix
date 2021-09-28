@@ -30,6 +30,7 @@
       enable = true;
       plugins = with pkgs.vimPlugins; [
         vim-nix
+        editorconfig-nvim
         YouCompleteMe
         vim-commentary
       ];
