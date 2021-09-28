@@ -48,6 +48,21 @@
           # inherit pkgs-dev;
         };
       };
+      work = inputs.nixpkgs.lib.nixosSystem {
+        inherit system;
+        modules = [
+          ./configuration-work.nix
+          inputs.home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.alex = import ./home-manager/default.nix; 
+          }
+        ];
+        specialArgs = {
+          inherit inputs pkgs pkgs-master self;
+        };
+      };
     };
 
     packages.x86_64-linux = (builtins.head (builtins.attrValues inputs.self.nixosConfigurations)).pkgs;
