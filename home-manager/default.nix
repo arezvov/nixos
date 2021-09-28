@@ -7,6 +7,7 @@
     ./xsession.nix
     ./alacritty.nix
     ./dunst.nix
+    ./gnupg.nix
   ];
 
   programs = {
