@@ -6,6 +6,7 @@
     nixpkgs-master.url = "github:nixos/nixpkgs/master";
     # nixpkgs-dev.url = "git+file:///home/alex/src/nixpkgs";
     home-manager.url = "github:nix-community/home-manager";
+    ipmi.url = "git+ssh://git@gitlab.intr/utils/nix-ipmi?ref=flake";
 
     secrets.url = "git+file:///home/alex/git/nixos-secrets";
   };
@@ -44,7 +45,7 @@
           }
         ];
         specialArgs = { 
-          inherit inputs pkgs pkgs-master self;
+          inherit inputs system pkgs pkgs-master self;
           # inherit pkgs-dev;
         };
       };

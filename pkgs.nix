@@ -1,6 +1,7 @@
-{ config, lib, pkgs, pkgs-master, mkDerivation, ... }:
+{ config, lib, pkgs, pkgs-master, mkDerivation, inputs, system, ... }:
 {
   environment.systemPackages = with pkgs; [
+    (inputs.ipmi.packages."x86_64-linux".ipmi)
     wget
     libguestfs-with-appliance
     vim
@@ -212,6 +213,7 @@
     python39Packages.pip
     python39Packages.python-gitlab
     (python39.withPackages (ps: with ps; [ pip python-gitlab ]))
+    pwgen
   ];
   fonts.fonts = with pkgs; [ jetbrains-mono siji ];
 }

@@ -2,7 +2,7 @@
 
 {
   networking.extraHosts = ''
-    78.108.80.33 web15majordomoru.aq
-    130.61.186.90 ask-joiner.ru vpn.rezvov.ru
+    172.16.100.147 ipmi.intr
+    172.16.100.240 nh-dc-1.intr
   '';
 }

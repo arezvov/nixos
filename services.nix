@@ -11,4 +11,8 @@ with pkgs;
         alex-psql alex postgres
       '';
     };
+    services.openssh = {
+      enable = true;
+      forwardX11 = true;
+    };
 }
