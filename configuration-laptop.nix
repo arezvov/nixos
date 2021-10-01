@@ -103,17 +103,6 @@ in {
   };
 
   programs.light.enable = true;
-  services.actkbd = {
-    enable = true;
-    bindings = with pkgs; [
-      # TODO: Move it in i3 config
-      { keys = [ 225 ]; events = [ "key" ]; command = "/run/current-system/sw/bin/light -A 5"; }
-      { keys = [ 224 ]; events = [ "key" ]; command = "/run/current-system/sw/bin/light -U 5"; }
-      { keys = [ 113 ]; events = [ "key" ]; command = "${sudo}/bin/sudo -u alex ${pa-mute}"; }
-      { keys = [ 114 ]; events = [ "key" ]; command = "${sudo}/bin/sudo -u alex ${pa-volume} -5"; }
-      { keys = [ 115 ]; events = [ "key" ]; command = "${sudo}/bin/sudo -u alex ${pa-volume} +5"; }
-    ];
-  };
 
   services.acpid = {
     enable = true;
