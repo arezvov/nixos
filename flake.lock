@@ -48,12 +48,12 @@
         "rev": "0155d23e6d636163a481f22c70bfb5937d950b86",
         "revCount": 28,
         "type": "git",
-        "url": "ssh://git@gitlab.intr/utils/nix-ipmi"
+        "url": "file:///home/alex/work/nix-ipmi"
       },
       "original": {
         "ref": "flake",
         "type": "git",
-        "url": "ssh://git@gitlab.intr/utils/nix-ipmi"
+        "url": "file:///home/alex/work/nix-ipmi"
       }
     },
     "nixpkgs": {
@@ -161,7 +161,7 @@
     "secrets": {
       "locked": {
         "lastModified": 0,
-        "narHash": "sha256-Npr6k+HhAAfBcHGJ0FR2ms867BUXem5GMtuaKDo0Csw=",
+        "narHash": "sha256-8KRdURDIlOghM9NaCwe79lFaDWRZf0UrN6ol894+QTw=",
         "type": "git",
         "url": "file:///home/alex/git/nixos-secrets"
       },

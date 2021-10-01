@@ -138,6 +138,11 @@ in {
       autoStart = true;
       updateResolvConf = true;
     };
+    nh = {
+      config = "config /etc/openvpn/nh.conf";
+      autoStart = true;
+      updateResolvConf = true;
+    };
   };
   
   services.xserver = {
