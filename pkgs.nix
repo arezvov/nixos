@@ -210,8 +210,8 @@
     ubridge
     vpcs
     python39Packages.pip
-    python39Packages.python-gitlab
     (python39.withPackages (ps: with ps; [ pip python-gitlab ]))
+    element-desktop
   ];
   fonts.fonts = with pkgs; [ jetbrains-mono siji ];
 }

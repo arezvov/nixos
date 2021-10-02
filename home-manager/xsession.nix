@@ -79,6 +79,15 @@
 
         "${mod}+r" = "mode \"resize\"";
       };
+
+      keycodebindings = {
+        "172" = "exec ${pkgs.playerctl}/bin/playerctl play-pause";
+        "174" = "exec ${pkgs.playerctl}/bin/playerctl stop";
+        "173" = "exec ${pkgs.playerctl}/bin/playerctl previous";
+        "171" = "exec ${pkgs.playerctl}/bin/playerctl next";
+        "107" = "exec xfce4-screenshooter";
+      };
+
       modes = {
         resize = {
           "j" = "resize shrink width 10 px or 10 ppt";

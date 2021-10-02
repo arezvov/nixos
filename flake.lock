@@ -75,7 +75,7 @@
     "secrets": {
       "locked": {
         "lastModified": 0,
-        "narHash": "sha256-Npr6k+HhAAfBcHGJ0FR2ms867BUXem5GMtuaKDo0Csw=",
+        "narHash": "sha256-4K2P1h2U2X3bx5hdI9cIBaBEZPYF+8BX8dfNXTyoBX8=",
         "type": "git",
         "url": "file:///home/alex/git/nixos-secrets"
       },

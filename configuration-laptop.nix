@@ -161,7 +161,7 @@ in {
     requireSignedBinaryCaches = false;
     package = pkgs.nixUnstable;
     extraOptions = ''
-      binary-caches = https://cache.nixos.org/ http://jenkins.intr:5000/
+      binary-caches = https://cache.nixos.org/ 
       experimental-features = nix-command flakes
     '';
   };

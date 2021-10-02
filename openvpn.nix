@@ -28,6 +28,7 @@ in {
         comp-lzo
         mssfix
         auth SHA1
+        data-ciphers BF-CBC:AES-256-GCM:AES-128-GCM
         script-security 3
         daemon
         nobind
