@@ -60,7 +60,7 @@ in {
       enable = true;
     };
 
-    vswitch.enable = false;
+    vswitch.enable = true;
 
     docker = {
       enable = true;

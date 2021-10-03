@@ -1,5 +1,21 @@
 { config, lib, pkgs, pkgs-master, mkDerivation, inputs, system, ... }:
-{
+let
+  ovs = pkgs.python39.pkgs.buildPythonPackage rec {
+    pname = "ovs";
+    version = "2.13.3";
+    
+    src = pkgs.python39.pkgs.fetchPypi {
+      inherit pname version;
+      sha256 = "sha256-i0bOyGWja/p4Y98p9PdhWJweB1331KovrtxS/h49gLY=";
+    };
+    doCheck = false;
+
+    buildInputs = with pkgs; [
+      python39Packages.sortedcontainers
+    ];
+  };
+
+in {
   environment.systemPackages = with pkgs; [
     (inputs.ipmi.packages."x86_64-linux".ipmi)
     wget
@@ -210,9 +226,10 @@
     ubridge
     vpcs
     python39Packages.pip
-    (python39.withPackages (ps: with ps; [ pip python-gitlab ]))
+    (python39.withPackages (ps: with ps; [ pip python-gitlab ovs ]))
     element-desktop
     pwgen
+    tcpdump
   ];
   fonts.fonts = with pkgs; [ jetbrains-mono siji ];
 }
