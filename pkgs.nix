@@ -55,7 +55,6 @@
     jre
     adoptopenjdk-icedtea-web
     xorg.xbacklight
-    # ipmi
     dpkg
     unzip
     pandoc
