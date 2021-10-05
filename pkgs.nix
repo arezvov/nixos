@@ -230,6 +230,7 @@ in {
     element-desktop
     pwgen
     tcpdump
+    yq
   ];
   fonts.fonts = with pkgs; [ jetbrains-mono siji ];
 }

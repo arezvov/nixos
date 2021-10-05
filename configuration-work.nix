@@ -57,6 +57,7 @@ in {
   networking = {
     hostName = "work";
     useDHCP = false;
+    firewall.enable = false;
     interfaces.enp7s0.useDHCP = true;
   };
 
@@ -76,8 +77,8 @@ in {
   };
 
   nix = {    
-    gc.automatic = true;
-    gc.options = "--delete-older-than 14d";
+    # gc.automatic = true;
+    # gc.options = "--delete-older-than 14d";
     requireSignedBinaryCaches = false;
     package = pkgs.nixUnstable;
     extraOptions = ''
