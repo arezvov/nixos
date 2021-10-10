@@ -38,6 +38,7 @@
         tray-offset-y = 0;
         cursor-click = "pointer";
         cursor-scroll = "ns-resize";
+        monitor = "DP-2";
       };
 
       "colors" = {

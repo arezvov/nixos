@@ -11,12 +11,13 @@ in {
 
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware-configuration-work.nix
+      ./hardware-configuration-home.nix
       ./pkgs.nix
       ./environment.nix
       ./users.nix
       ./services.nix
       ./hosts.nix
+      ./openvpn.nix
     ];
 
   boot = {
@@ -61,19 +62,35 @@ in {
     interfaces.enp4s0.useDHCP = true;
   };
 
+  services.openvpn.servers = {
+    mj = {
+      config = "config /etc/openvpn/mj.conf";
+      autoStart = true;
+      updateResolvConf = true;
+    };
+  };
+
   services.xserver = {
     enable = true;
     displayManager = {
         defaultSession = "none+i3";
         #lightdm.greeters.pantheon.enable = true;
     };
+
+    xrandrHeads = [{
+        output = "DP-2";
+        primary = true;
+      } {
+        output = "DVI-D-1";
+      }
+    ];
+
     windowManager.i3 = {
       enable = true;
       extraPackages = with pkgs; [
         dmenu polybarFull i3lock-fancy i3lock-fancy-rapid
       ];
     };
-    synaptics.enable = true;
   };
 
   nix = {    
@@ -82,7 +99,7 @@ in {
     requireSignedBinaryCaches = false;
     package = pkgs.nixUnstable;
     extraOptions = ''
-      binary-caches = https://cache.nixos.org/ http://jenkins.intr:5000/
+      binary-caches = https://cache.nixos.org/ 
       experimental-features = nix-command flakes
     '';
   };

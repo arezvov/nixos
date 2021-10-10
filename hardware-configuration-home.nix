@@ -31,6 +31,15 @@
     };
   };
 
+  hardware = {
+    bluetooth.enable = true;
+    pulseaudio = {
+      enable = true;
+      package = pkgs.pulseaudioFull;
+      systemWide = true;
+    };
+  };
+
   swapDevices = [ ];
 
   nix.maxJobs = lib.mkDefault 12;
