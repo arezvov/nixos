@@ -64,6 +64,7 @@ in {
 
     docker = {
       enable = true;
+      liveRestore = false;
       enableOnBoot = true;
     };
   };
