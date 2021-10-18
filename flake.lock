@@ -48,12 +48,12 @@
         "rev": "0155d23e6d636163a481f22c70bfb5937d950b86",
         "revCount": 28,
         "type": "git",
-        "url": "ssh://git@github.com/mjuh/utils-nix-ipmi.git"
+        "url": "ssh://git@github.com/6d6a/utils-nix-ipmi.git"
       },
       "original": {
         "ref": "flake",
         "type": "git",
-        "url": "ssh://git@github.com/mjuh/utils-nix-ipmi.git"
+        "url": "ssh://git@github.com/6d6a/utils-nix-ipmi.git"
       }
     },
     "nixpkgs": {
@@ -88,11 +88,11 @@
     },
     "nixpkgs-master": {
       "locked": {
-        "lastModified": 1632610395,
-        "narHash": "sha256-lboGTH4lsEUl7b3M6sDUcMxH6nHLZ7bm4xYr0erEDV0=",
+        "lastModified": 1633806496,
+        "narHash": "sha256-17sIjfOMlaVDqRcYhPiw4gVrPLJiGKKX50Esp1a1oj8=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "168b5c5d8bcbdfa7fcbb3240f533150b63536645",
+        "rev": "d8db07defaf58376a52c22bcc8848429ad4fb0b5",
         "type": "github"
       },
       "original": {
@@ -160,11 +160,8 @@
     },
     "secrets": {
       "locked": {
-        "lastModified": 1633104239,
-        "narHash": "sha256-8KRdURDIlOghM9NaCwe79lFaDWRZf0UrN6ol894+QTw=",
-        "ref": "master",
-        "rev": "20631203e6f83d4fe31c754899d76ccad88afc42",
-        "revCount": 1,
+        "lastModified": 0,
+        "narHash": "sha256-D+aTyUxN3jMlPe753883XTkbdB0EU+u95O/GFM1/vLU=",
         "type": "git",
         "url": "file:///home/alex/git/nixos-secrets"
       },

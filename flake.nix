@@ -6,7 +6,7 @@
     nixpkgs-master.url = "github:nixos/nixpkgs/master";
     # nixpkgs-dev.url = "git+file:///home/alex/src/nixpkgs";
     home-manager.url = "github:nix-community/home-manager";
-    ipmi.url = "git+ssh://git@github.com/mjuh/utils-nix-ipmi.git?ref=flake";
+    ipmi.url = "git+ssh://git@github.com/6d6a/utils-nix-ipmi.git?ref=flake";
 
     secrets.url = "git+file:///home/alex/git/nixos-secrets";
   };
@@ -53,6 +53,21 @@
         inherit system;
         modules = [
           ./configuration-work.nix
+          inputs.home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.alex = import ./home-manager/default.nix; 
+          }
+        ];
+        specialArgs = {
+          inherit inputs pkgs pkgs-master self;
+        };
+      };
+      home = inputs.nixpkgs.lib.nixosSystem {
+        inherit system;
+        modules = [
+          ./configuration-home.nix
           inputs.home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
