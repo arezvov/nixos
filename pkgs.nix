@@ -3,7 +3,7 @@ let
   ovs = pkgs.python39.pkgs.buildPythonPackage rec {
     pname = "ovs";
     version = "2.13.3";
-    
+
     src = pkgs.python39.pkgs.fetchPypi {
       inherit pname version;
       sha256 = "sha256-i0bOyGWja/p4Y98p9PdhWJweB1331KovrtxS/h49gLY=";
@@ -175,7 +175,7 @@ in {
     xrdp
     teams
     openttd
-    minikube
+    pkgs-master.minikube
     # docker-machine-kvm2
     kubectl
     kubernetes-helm
