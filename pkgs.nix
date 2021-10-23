@@ -175,7 +175,7 @@ in {
     xrdp
     teams
     openttd
-    minikube
+    pkgs-master.minikube
     # docker-machine-kvm2
     kubectl
     kubernetes-helm
