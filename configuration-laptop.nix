@@ -8,8 +8,8 @@ let
     pa-volume = pkgs.writeScript "pa-volume" ''
         #!${pkgs.bash}/bin/bash
 
-        for sink in $(${pkgs.pulseaudio}/bin/pactl list sinks | grep "Sink #" | cut -b7-); 
-        do 
+        for sink in $(${pkgs.pulseaudio}/bin/pactl list sinks | grep "Sink #" | cut -b7-);
+        do
             ${pkgs.pulseaudio}/bin/pactl -- set-sink-volume $sink $1%
         done
     '';
@@ -17,9 +17,9 @@ let
     pa-mute = pkgs.writeScript "pa-mute" ''
         #!${pkgs.bash}/bin/bash
 
-        for sink in $(${pkgs.pulseaudio}/bin/pactl list sinks | grep "Sink #" | cut -b7-); 
-        do 
-            ${pkgs.pulseaudio}/bin/pactl -- set-sink-mute $sink toggle; 
+        for sink in $(${pkgs.pulseaudio}/bin/pactl list sinks | grep "Sink #" | cut -b7-);
+        do
+            ${pkgs.pulseaudio}/bin/pactl -- set-sink-mute $sink toggle;
         done
     '';
 
@@ -109,7 +109,7 @@ in {
     logEvents = true;
     acEventCommands = ''
       # ac_adapter ACPI0003:00 00000080 00000000
-      export PATH=${pkgs.gawk}/bin:${pkgs.linuxPackages_5_10.cpupower}/bin:$PATH 
+      export PATH=${pkgs.gawk}/bin:${pkgs.linuxPackages_5_10.cpupower}/bin:$PATH
 
       AC_STATUS=$(echo $1 | awk '{print $4}')
 
@@ -133,7 +133,7 @@ in {
       updateResolvConf = true;
     };
   };
-  
+
   services.xserver = {
     enable = true;
     displayManager = {
@@ -149,13 +149,13 @@ in {
     synaptics.enable = true;
   };
 
-  nix = {    
+  nix = {
     gc.automatic = true;
     gc.options = "--delete-older-than 14d";
     requireSignedBinaryCaches = false;
     package = pkgs.nixUnstable;
     extraOptions = ''
-      binary-caches = https://cache.nixos.org/ 
+      binary-caches = https://cache.nixos.org/
       experimental-features = nix-command flakes
     '';
   };

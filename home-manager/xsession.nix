@@ -81,8 +81,8 @@
       };
 
       keycodebindings = {
-        "225" = "exec ${pkgs.light}/bin/light -A 5";
-        "224" = "exec ${pkgs.light}/bin/light -U 5";
+        "233" = "exec ${pkgs.light}/bin/light -A 5";
+        "232" = "exec ${pkgs.light}/bin/light -U 5";
         "172" = "exec ${pkgs.playerctl}/bin/playerctl play-pause";
         "174" = "exec ${pkgs.playerctl}/bin/playerctl stop";
         "173" = "exec ${pkgs.playerctl}/bin/playerctl previous";
