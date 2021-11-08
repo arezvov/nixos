@@ -1,4 +1,4 @@
-{ config, inputs, ... }: 
+{ config, inputs, ... }:
 
 let
   secrets = inputs.secrets.secrets;
@@ -10,7 +10,7 @@ in {
 
     "openvpn/nh.crt" = {
       text = secrets.nh_openvpn_cert;
-    }; 
+    };
 
     "openvpn/auth-nh" = {
       text = ''
@@ -18,7 +18,7 @@ in {
         ${secrets.nh_pass}
       '';
     };
-    
+
 
     "openvpn/auth-mj" = {
       text = ''
@@ -54,7 +54,7 @@ in {
         port 1194
         proto udp
         dev tap
-        remote ${secrets.mj_openvpn_host} 
+        remote ${secrets.mj_openvpn_host}
         tls-version-min 1.0
         ca "/etc/openvpn/mj.crt"
         auth-user-pass /etc/openvpn/auth-mj
