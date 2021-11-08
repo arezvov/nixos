@@ -49,6 +49,7 @@ in {
   boot.kernel.sysctl = {
     "net.ipv4.ip_default_ttl" = 65;
     "kernel.perf_event_paranoid" = 1;
+    "net.ipv4.ip_nonlocal_bind" = 1;
   };
 
   nixpkgs.config.permittedInsecurePackages = [
@@ -79,6 +80,7 @@ in {
     hostName = "laptop";
     useDHCP = false;
     interfaces.wlan0.useDHCP = true;
+    interfaces.enp3s0f4u1.useDHCP = true;
 
     wireless = {
       iwd.enable = true;
