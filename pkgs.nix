@@ -23,7 +23,7 @@ in {
     vim
     pkgs-master.tdesktop
     slack
-    xfce4-14.xfce4-terminal
+    #xfce4-14.xfce4-terminal
     vscode
     virtualbox
     htop
@@ -38,7 +38,7 @@ in {
     xdotool
     dnsutils
     swaks
-    xfce4-14.xfce4-screenshooter
+    #xfce4-14.xfce4-screenshooter
     zip
     irssi
     whois
@@ -56,7 +56,7 @@ in {
     mtr
     perl
     sieve-connect
-    telnet
+    inetutils
     xdotool
     tigervnc
     mycli
@@ -80,20 +80,20 @@ in {
     mutt
     qbittorrent
     nodePackages.node2nix
-    nodejs-12_x
+    # nodejs-12_x
     php
     yarn
     flameshot
     gimp
-    virtmanager
+    virt-manager
     vlc
-    jetbrains.pycharm-community
+    #jetbrains.pycharm-community
     gcc
     bvi
     file
     sqlite
     nixfmt
-    teamviewer
+    # teamviewer
     ansible
     openssl
     quassel
@@ -109,21 +109,21 @@ in {
     pciutils
     atop
     cpufrequtils
-    jetbrains.phpstorm
-    jetbrains.goland
+    #jetbrains.phpstorm
+    #jetbrains.goland
     bfg-repo-cleaner
     gnumake
     iotop
     iotop-c
     perl
     valgrind
-    atom
+    # atom
     exim
     lsof
     qtcreator
     automake
-    nmap
-    nmap-graphical
+    # nmap
+    # nmap-graphical
     gtk2
     gtk2-x11
     pkgs-master.discord
@@ -155,7 +155,7 @@ in {
     tmux
     pinentry-curses
     # steam
-    jetbrains.clion
+    #jetbrains.clion
     tmux-xpanes
     sysbench
     lm_sensors
@@ -173,7 +173,7 @@ in {
     influxdb
     radare2
     xrdp
-    teams
+    # teams
     openttd
     pkgs-master.minikube
     # docker-machine-kvm2
@@ -185,7 +185,7 @@ in {
     fwupd
     innoextract
     efitools
-    minecraft
+    #minecraft
     lshw
     usbutils
     simple-scan
@@ -196,14 +196,14 @@ in {
     rr
     playerctl
     zsh
-    pkgs-master.terraform-full
-    pkgs-master.terraform-provider-libvirt
+    #pkgs-master.terraform-full
+    #pkgs-master.terraform-provider-libvirt
     cdrkit
     ipcalc
     bridge-utils
     lgogdownloader
     virt-what
-    mininet
+    # mininet
     rclone
     ffmpeg
     fio
@@ -214,7 +214,7 @@ in {
     sysstat
     efibootmgr
     nvme-cli
-    exfat-utils
+    exfat
     clair
     libcgroup
     vmtouch

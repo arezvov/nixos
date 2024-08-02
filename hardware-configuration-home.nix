@@ -38,6 +38,10 @@
       package = pkgs.pulseaudioFull;
       systemWide = true;
     };
+    nvidia = {
+      modesetting.enable = true;
+      
+    };
   };
 
   swapDevices = [ ];

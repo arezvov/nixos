@@ -8,7 +8,7 @@
     config = {
       "bar/bar" = {
         width = "100%";
-        height = 27;
+        height = 37;
         offset-x = "0%";
         module-margin = 0;
         radius = "1.0";
@@ -24,9 +24,9 @@
         padding-right = 0;
         module-margin-left = 1;
         module-margin-right = 0;
-        font-0 = "JetBrains Mono:pixelsize=10;1";
-        font-1 = "unifont:fontformat=truetype:size=8:antialias=false;0";
-        font-2 = "siji:pixelsize=16;1";
+        font-0 = "JetBrains Mono:pixelsize=16;1";
+        font-1 = "unifont:fontformat=truetype:size=12:antialias=false;0";
+        font-2 = "siji:pixelsize=20;1";
         modules-left = "i3";
         modules-center = "";
         modules-right = "pulseaudio backlight-acpi filesystem xkeyboard memory cpu battery wlan date";

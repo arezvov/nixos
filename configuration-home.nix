@@ -17,7 +17,7 @@ in {
       ./users.nix
       ./services.nix
       ./hosts.nix
-      ./openvpn.nix
+      # ./openvpn.nix
     ];
 
   boot = {
@@ -26,6 +26,7 @@ in {
       version = 2;
       useOSProber = true;
       device = "/dev/sda"; # or "nodev" for efi only
+      default = 2;
     };
 
     kernelPackages = pkgs.linuxPackages_5_10;
@@ -43,32 +44,26 @@ in {
     adb.enable = true;
   };
 
-  zramSwap = {
-    enable = true;
-    numDevices = 12;
-    memoryPercent = 100;
-  };
+  # services.teamviewer.enable = true;
 
-  security.wrappers = {
-    ubridge = {
-      source  = "${pkgs.ubridge}/bin/ubridge";
-      capabilities = "cap_net_admin,cap_net_raw=ep";
-    };
-  };
+  #zramSwap = {
+  #  enable = true;
+  #  numDevices = 12;
+  #  memoryPercent = 100;
+  #};
+
+  #security.wrappers = {
+    # ubridge = {
+    #  source  = "${pkgs.ubridge}/bin/ubridge";
+    #  capabilities = "cap_net_admin,cap_net_raw=ep";
+    #};
+  #};
 
   networking = {
     hostName = "home";
     useDHCP = false;
     firewall.enable = false;
-    interfaces.enp4s0.useDHCP = true;
-  };
-
-  services.openvpn.servers = {
-    mj = {
-      config = "config /etc/openvpn/mj.conf";
-      autoStart = true;
-      updateResolvConf = true;
-    };
+    interfaces.enp13s0.useDHCP = true;
   };
 
   services.xserver = {
@@ -77,12 +72,14 @@ in {
         defaultSession = "none+i3";
         #lightdm.greeters.pantheon.enable = true;
     };
+    videoDrivers = ["nvidia"];
+    dpi = 240;
 
     xrandrHeads = [{
         output = "DP-2";
         primary = true;
       } {
-        output = "DVI-D-1";
+        output = "DP-0";
       }
     ];
 
@@ -94,18 +91,18 @@ in {
     };
   };
 
-  nix = {    
+  nix = {
     # gc.automatic = true;
     # gc.options = "--delete-older-than 14d";
     requireSignedBinaryCaches = false;
-    package = pkgs.nixUnstable;
+    #package = pkgs.nixUnstable;
     extraOptions = ''
-      binary-caches = https://cache.nixos.org/ 
+      binary-caches = https://cache.nixos.org/
       experimental-features = nix-command flakes
     '';
   };
 
-  system.stateVersion = "20.03"; # Did you read the comment?
+  # system.stateVersion = "20.03"; # Did you read the comment?
 
 }
 

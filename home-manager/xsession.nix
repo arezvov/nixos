@@ -9,14 +9,17 @@
         style = "monospace";
         size = 12.0;
       };
-      keybindings = let
-        mod = config.xsession.windowManager.i3.config.modifier;
+      keybindings = let mod = config.xsession.windowManager.i3.config.modifier;
       in {
         "${mod}+Return" = "exec alacritty";
         "Mod1+e" = "exec /home/alex/scripts/translate-notify";
         "Mod1+w --release" = "exec /home/alex/scripts/cb 2&>1 /tmp/cb.log";
         "control+Mod1+l" = "exec ${pkgs.i3lock-fancy-rapid}/bin/i3lock-fancy-rapid 15 20";
         "${mod}+q" = "exec CM_HISTLENGTH=30 clipmenu -i -fn Terminus:size=10 -nb '#002b36' -nf '#839496' -sb '#073642' -sf '#93a1a1'";
+        "control+Mod1+l" =
+        #  "exec ${pkgs.i3lock-fancy-rapid}/bin/i3lock-fancy-rapid 3 10";
+        #"${mod}+q" =
+        #  "exec CM_HISTLENGTH=30 clipmenu -i -fn Terminus:size=10 -nb '#002b36' -nf '#839496' -sb '#073642' -sf '#93a1a1'";
         "${mod}+Shift+q" = "kill";
         "${mod}+d" = "exec dmenu_run";
         "${mod}+z" = "exec passmenu -l 50";
@@ -75,9 +78,10 @@
 
         "${mod}+Shift+c" = "reload";
         "${mod}+Shift+r" = "restart";
-        "${mod}+Shift+e" = "exec \"i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'\"";
+        "${mod}+Shift+e" = ''
+          exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"'';
 
-        "${mod}+r" = "mode \"resize\"";
+        "${mod}+r" = ''mode "resize"'';
       };
 
       keycodebindings = {
@@ -102,25 +106,26 @@
           "Up" = "resize shrink height 10 px or 10 ppt";
           "Right" = "resize grow width 10 px or 10 ppt";
 
-          "Return" = "mode \"default\"";
-          "Escape" = "mode \"default\"";
-          "Mod4+r" = "mode \"default\"";
+          "Return" = ''mode "default"'';
+          "Escape" = ''mode "default"'';
+          "Mod4+r" = ''mode "default"'';
         };
       };
       modifier = "Mod4";
-      bars = [{
-        command = "${pkgs.polybarFull}/bin/polybar";
-      }];
+      bars = [{ command = "${pkgs.polybarFull}/bin/polybar"; }];
       terminal = "alacritty";
       workspaceAutoBackAndForth = true;
-      startup = [ {
-        command = "systemctl --user restart polybar"; 
-        always = true; 
-        notification = true;
-      } {
-        command = "setxkbmap \"us,ru\" \",winkeys\" \"grp:alt_shift_toggle\"";
-        always = true;
-      }];
+      startup = [
+        {
+          command = "systemctl --user restart polybar";
+          always = true;
+          notification = true;
+        }
+        {
+          command = ''setxkbmap "us,ru" ",winkeys" "grp:alt_shift_toggle"'';
+          always = true;
+        }
+      ];
     };
     extraConfig = ''
       set $ws1 "1"

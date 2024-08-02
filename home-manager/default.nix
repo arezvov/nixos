@@ -10,6 +10,8 @@
     ./gnupg.nix
   ];
 
+  home.stateVersion = "23.05";
+
   programs = {
     git = {
       enable = true;
