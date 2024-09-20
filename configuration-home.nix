@@ -40,7 +40,7 @@ in {
 
   hardware.opengl.driSupport32Bit = true;
   programs = {
-    # steam.enable = true;
+    steam.enable = true;
     adb.enable = true;
   };
 
@@ -73,7 +73,7 @@ in {
         #lightdm.greeters.pantheon.enable = true;
     };
     videoDrivers = ["nvidia"];
-    dpi = 240;
+    dpi = 140;
 
     xrandrHeads = [{
         output = "DP-2";
