@@ -8,13 +8,17 @@
     home-manager.url = "github:nix-community/home-manager";
     ipmi.url = "git+ssh://git@github.com/6d6a/utils-nix-ipmi.git?ref=flake";
 
+    nix-darwin.url = "github:LnL7/nix-darwin";
+    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+
     secrets.url = "git+file:///home/alex/git/nixos-secrets";
   };
 
   outputs = { 
     self, 
     nixpkgs, 
-    nixpkgs-master, 
+    nixpkgs-master,
+    nix-darwin,
     # nixpkgs-dev, 
     ...  
   } @ inputs:
@@ -80,6 +84,26 @@
         };
       };
     };
+
+    darwinConfigurations = {
+      "vk_macbook" = nix-darwin.lib.darwinSystem {
+        modules = [ 
+          ./configuration-macos.nix 
+          
+          inputs.home-manager.darwinModules.home-manager
+          {
+            home-manager = {
+              backupFileExtension = "nix-hm-backup";
+              users = {
+                "a.rezvov" = import ./home-manager/default-mac.nix; 
+              };
+            };
+          }
+        ];
+      };
+    };
+     
+    darwinPackages = self.darwinConfigurations."vk_macbook".pkgs;
 
     packages.x86_64-linux = (builtins.head (builtins.attrValues inputs.self.nixosConfigurations)).pkgs;
 
