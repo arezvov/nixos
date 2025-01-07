@@ -6,7 +6,7 @@
     nixpkgs-master.url = "github:nixos/nixpkgs/master";
     # nixpkgs-dev.url = "git+file:///home/alex/src/nixpkgs";
     home-manager.url = "github:nix-community/home-manager";
-    ipmi.url = "git+ssh://git@github.com/6d6a/utils-nix-ipmi.git?ref=flake";
+    # ipmi.url = "git+ssh://git@github.com/6d6a/utils-nix-ipmi.git?ref=flake";
 
     nix-darwin.url = "github:LnL7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";

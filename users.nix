@@ -3,7 +3,7 @@
 {
   users.users.alex = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "docker" "audio" "video" "adbusers" "libvirtd" "qemu-libvirtd" ];
+    extraGroups = [ "wheel" "docker" "audio" "video" "adbusers" "libvirtd" "qemu-libvirtd" "incus-admin" ];
   };
 
   security.sudo = {

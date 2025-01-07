@@ -13,7 +13,7 @@
       availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usb_storage" "sd_mod" ];
       kernelModules = [ ];
     };
-    extraModulePackages = [ pkgs.linuxPackages_5_10.sysdig ];
+    extraModulePackages = [ pkgs.linuxPackages_6_10.sysdig ];
     tmpOnTmpfs = true;
     kernelModules = [ "kvm-amd" ];
   };
@@ -32,15 +32,26 @@
   };
 
   hardware = {
-    bluetooth.enable = true;
-    pulseaudio = {
+    bluetooth = {
       enable = true;
-      package = pkgs.pulseaudioFull;
-      systemWide = true;
+      settings = {
+        General = {
+          Name = "Hello";
+          ControllerMode = "dual";
+          FastConnectable = "true";
+          Experimental = "true";
+        };
+      };
+    };
+
+    pulseaudio = {
+      enable = false;
+      #package = pkgs.pulseaudioFull;
+    #  systemWide = true;
     };
     nvidia = {
-      modesetting.enable = true;
-      
+
+      modesetting.enable = true; 
     };
   };
 

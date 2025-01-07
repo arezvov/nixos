@@ -82,12 +82,12 @@ in {
     requireSignedBinaryCaches = false;
     package = pkgs.nixUnstable;
     extraOptions = ''
-      binary-caches = https://cache.nixos.org/ http://jenkins.intr:5000/
+      binary-caches = https://cache.nixos.org/
       experimental-features = nix-command flakes
     '';
   };
 
-  system.stateVersion = "20.03"; # Did you read the comment?
+  system.stateVersion = "24.11"; # Did you read the comment?
 
 }
 

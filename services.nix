@@ -6,7 +6,7 @@ with pkgs;
     };
 
     services.postgresql = {
-      enable = true;
+      enable = false;
       identMap = ''
         alex-psql alex postgres
       '';

@@ -15,16 +15,51 @@ let
     ];
   };
 
+  kubernetes = pkgs.kubernetes.overrideAttrs (old: rec {
+    version = "1.28.3"; # usually harmless to omit
+    src = pkgs.fetchFromGitHub {
+      owner = "kubernetes";
+      repo = "kubernetes";
+      rev = "v${version}";
+      hash = "sha256-lb9FAk3b6J92viyHzLCzbYRxhQS94/FQvDr1m1kdTq8=";
+    };
+  });
+
+  kubectl = kubernetes.overrideAttrs (_: rec {
+    pname = "kubectl";
+
+    outputs = [ "out" "man" "convert" ];
+
+    WHAT = lib.concatStringsSep " " [
+      "cmd/kubectl"
+      "cmd/kubectl-convert"
+    ];
+
+    installPhase = ''
+      runHook preInstall
+      install -D _output/local/go/bin/kubectl -t $out/bin
+      install -D _output/local/go/bin/kubectl-convert -t $convert/bin
+
+      installManPage docs/man/man1/kubectl*
+
+      installShellCompletion --cmd kubectl \
+        --bash <($out/bin/kubectl completion bash) \
+        --fish <($out/bin/kubectl completion fish) \
+        --zsh <($out/bin/kubectl completion zsh)
+      runHook postInstall
+    '';
+  });
+
 in {
   environment.systemPackages = with pkgs; [
-    (inputs.ipmi.packages."x86_64-linux".ipmi)
     wget
     libguestfs-with-appliance
     vim
     pkgs-master.tdesktop
-    slack
-    #xfce4-14.xfce4-terminal
-    vscode
+    obsidian
+    pkgs-master.nekoray
+    pkgs-master.vscode-fhs
+    pkgs-master.prismlauncher
     virtualbox
     htop
     geany
@@ -38,7 +73,6 @@ in {
     xdotool
     dnsutils
     swaks
-    #xfce4-14.xfce4-screenshooter
     zip
     irssi
     whois
@@ -68,7 +102,8 @@ in {
     killall
     dive
     redis
-    jre
+    (jdk11.override { enableJavaFX = true; })
+    temurin-bin-17
     adoptopenjdk-icedtea-web
     xorg.xbacklight
     dpkg
@@ -80,25 +115,20 @@ in {
     mutt
     qbittorrent
     nodePackages.node2nix
-    # nodejs-12_x
     php
     yarn
     flameshot
     gimp
     virt-manager
     vlc
-    #jetbrains.pycharm-community
     gcc
     bvi
     file
     sqlite
     nixfmt
-    # teamviewer
     ansible
     openssl
     quassel
-    # palemoon
-    # streamlink
     imagemagick
     libreoffice
     parallel
@@ -109,21 +139,16 @@ in {
     pciutils
     atop
     cpufrequtils
-    #jetbrains.phpstorm
-    #jetbrains.goland
     bfg-repo-cleaner
     gnumake
     iotop
     iotop-c
     perl
     valgrind
-    # atom
     exim
     lsof
     qtcreator
     automake
-    # nmap
-    # nmap-graphical
     gtk2
     gtk2-x11
     pkgs-master.discord
@@ -135,13 +160,13 @@ in {
     winePackages.stable
     dmidecode
     iperf3
-    vscode
+    #vscode
     codeblocksFull
     dovecot_pigeonhole
     unrar
     libchardet
     hwloc
-    google-chrome
+    pkgs-master.google-chrome
     patchelf
     binutils-unwrapped
     avrdude
@@ -173,10 +198,8 @@ in {
     influxdb
     radare2
     xrdp
-    # teams
     openttd
     pkgs-master.minikube
-    # docker-machine-kvm2
     kubectl
     kubernetes-helm
     linuxPackages_5_10.cpupower
@@ -185,7 +208,6 @@ in {
     fwupd
     innoextract
     efitools
-    #minecraft
     lshw
     usbutils
     simple-scan
@@ -196,8 +218,8 @@ in {
     rr
     playerctl
     zsh
-    #pkgs-master.terraform-full
-    #pkgs-master.terraform-provider-libvirt
+    pkgs-master.terraform
+    pkgs-master.terraform-providers.incus
     cdrkit
     ipcalc
     bridge-utils

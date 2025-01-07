@@ -29,20 +29,22 @@ in {
       default = 2;
     };
 
-    kernelPackages = pkgs.linuxPackages_5_10;
+    kernelPackages = pkgs.linuxPackages_6_10;
     kernel.sysctl = {
       "net.ipv4.ip_default_ttl" = 65;
       "kernel.perf_event_paranoid" = 1;
     };
   };
 
-  nixpkgs.config.permittedInsecurePackages = [ "openssl-1.0.2u" ];
+  #nixpkgs.config.permittedInsecurePackages = [ "openssl-1.0.2u" ];
 
-  hardware.opengl.driSupport32Bit = true;
+  #hardware.opengl.driSupport32Bit = true;
   programs = {
     steam.enable = true;
     adb.enable = true;
   };
+
+  services.ntp.enable = true;
 
   # services.teamviewer.enable = true;
 
@@ -58,6 +60,13 @@ in {
     #  capabilities = "cap_net_admin,cap_net_raw=ep";
     #};
   #};
+
+  virtualisation = {
+    incus = {
+      enable = true;
+      ui.enable = true;
+    };
+  };
 
   networking = {
     hostName = "home";
@@ -88,6 +97,19 @@ in {
       extraPackages = with pkgs; [
         dmenu polybarFull i3lock-fancy i3lock-fancy-rapid
       ];
+    };
+  };
+
+  services = {
+    pipewire = {
+      enable = true;
+      audio.enable = true;
+      pulse.enable = true;
+      alsa = {
+        enable = true;
+        support32Bit = true;
+      };
+      jack.enable = true;
     };
   };
 
