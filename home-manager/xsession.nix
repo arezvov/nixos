@@ -1,6 +1,25 @@
 { config, pkgs, ... }:
 
 {
+  services = {
+    picom = {
+      enable = true;
+      vSync = true;
+      fade = true;
+      shadow = true;
+      # fadeSteps = [ 0.01 0.15 ];
+      fadeDelta = 5;
+      # package = pkgs.picom-pijulius;
+
+      settings = {
+        frame-opacity-for-same-colors = true;
+        frame-opacity-for-same-colors-constraint = 0.5;
+        frame-opacity-for-same-colors-multiplier = 5;
+        frame-opacity = 0.7;
+      };
+    };
+  };
+
   xsession.windowManager.i3 = {
     enable = true;
     config = {
@@ -91,7 +110,7 @@
         "174" = "exec ${pkgs.playerctl}/bin/playerctl stop";
         "173" = "exec ${pkgs.playerctl}/bin/playerctl previous";
         "171" = "exec ${pkgs.playerctl}/bin/playerctl next";
-        "107" = "exec xfce4-screenshooter";
+        "107" = "exec ${pkgs.flameshot}/bin/flameshot gui";
       };
 
       modes = {

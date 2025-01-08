@@ -8,5 +8,6 @@
     clipmenu = {
       enable = true;
     };
+    flameshot.enable = true;
   };
 }
