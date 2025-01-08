@@ -126,7 +126,7 @@ in {
     bvi
     file
     sqlite
-    nixfmt
+    nixfmt-classic
     ansible
     openssl
     quassel
@@ -257,6 +257,6 @@ in {
     yq
     btop
   ];
-  fonts.fonts = with pkgs; [ jetbrains-mono siji ];
+  fonts.packages = with pkgs; [ jetbrains-mono siji ];
 
 }

@@ -42,7 +42,7 @@ in {
       set tabstospaces
       set tabsize 4
     '';
-    bash.enableCompletion = true;
+    bash.completion.enable = true;
     zsh.enable = true;
   };
 

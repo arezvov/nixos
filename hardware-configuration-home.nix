@@ -44,11 +44,6 @@
       };
     };
 
-    pulseaudio = {
-      enable = false;
-      #package = pkgs.pulseaudioFull;
-    #  systemWide = true;
-    };
     nvidia = {
       package = config.boot.kernelPackages.nvidiaPackages.beta;
       open = false;

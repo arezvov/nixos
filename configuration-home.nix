@@ -23,7 +23,6 @@ in {
   boot = {
     loader.grub = {
       enable = true;
-      version = 2;
       useOSProber = true;
       device = "/dev/sda"; # or "nodev" for efi only
       default = 2;
@@ -83,10 +82,6 @@ in {
 
   services.xserver = {
     enable = true;
-    displayManager = {
-        defaultSession = "none+i3";
-        #lightdm.greeters.pantheon.enable = true;
-    };
     videoDrivers = ["nvidia"];
     dpi = 140;
 
@@ -107,6 +102,15 @@ in {
   };
 
   services = {
+    displayManager = {
+        defaultSession = "none+i3";
+        #lightdm.greeters.pantheon.enable = true;
+    };
+
+    pulseaudio = {
+      enable = false;
+    };
+
     pipewire = {
       enable = true;
       audio.enable = true;
@@ -122,7 +126,7 @@ in {
   nix = {
     # gc.automatic = true;
     # gc.options = "--delete-older-than 14d";
-    requireSignedBinaryCaches = false;
+    settings.require-sigs = false;
     #package = pkgs.nixUnstable;
     extraOptions = ''
       binary-caches = https://cache.nixos.org/
