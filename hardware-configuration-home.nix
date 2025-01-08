@@ -13,8 +13,8 @@
       availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usb_storage" "sd_mod" ];
       kernelModules = [ ];
     };
-    extraModulePackages = [ pkgs.linuxPackages_6_10.sysdig ];
-    tmpOnTmpfs = true;
+    extraModulePackages = with pkgs; [ linuxPackages_6_12.sysdig linuxPackages_6_12.tmon ];
+    tmp.useTmpfs = true;
     kernelModules = [ "kvm-amd" ];
   };
   
@@ -50,12 +50,13 @@
     #  systemWide = true;
     };
     nvidia = {
-
+      package = config.boot.kernelPackages.nvidiaPackages.beta;
+      open = false;
       modesetting.enable = true; 
     };
   };
 
   swapDevices = [ ];
 
-  nix.maxJobs = lib.mkDefault 12;
+  nix.settings.max-jobs = lib.mkDefault 12;
 }

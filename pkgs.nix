@@ -60,9 +60,10 @@ in {
     pkgs-master.nekoray
     pkgs-master.vscode-fhs
     pkgs-master.prismlauncher
-    virtualbox
+    pkgs-master.winbox4
+    # virtualbox
     htop
-    geany
+    # geany
     pavucontrol
     git
     openvpn
@@ -78,7 +79,7 @@ in {
     whois
     ltrace
     sysbench
-    simplescreenrecorder
+    # simplescreenrecorder
     thunderbird
     feh
     robo3t
@@ -96,13 +97,13 @@ in {
     mycli
     xorg.xhost
     bc
-    lua5_3
-    lua53Packages.luaposix
+    # lua5_3
+    # lua53Packages.luaposix
     ipmitool
     killall
     dive
     redis
-    (jdk11.override { enableJavaFX = true; })
+    jdk11
     temurin-bin-17
     adoptopenjdk-icedtea-web
     xorg.xbacklight
@@ -125,7 +126,7 @@ in {
     bvi
     file
     sqlite
-    nixfmt
+    # nixfmt
     ansible
     openssl
     quassel
@@ -152,7 +153,7 @@ in {
     gtk2
     gtk2-x11
     pkgs-master.discord
-    gnome3.nautilus
+    # gnome3.nautilus
     mono6
     screen
     davfs2
@@ -162,7 +163,7 @@ in {
     iperf3
     #vscode
     codeblocksFull
-    dovecot_pigeonhole
+    # dovecot_pigeonhole
     unrar
     libchardet
     hwloc
@@ -195,16 +196,16 @@ in {
     fatrace
     rustc
     cargo
-    influxdb
+    # influxdb
     radare2
     xrdp
     openttd
     pkgs-master.minikube
     kubectl
     kubernetes-helm
-    linuxPackages_5_10.cpupower
-    linuxPackages_5_10.bpftrace
-    linuxPackages_5_10.sysdig
+    # linuxPackages_5_10.cpupower
+    # linuxPackages_5_10.bpftrace
+    # linuxPackages_5_10.sysdig
     fwupd
     innoextract
     efitools
@@ -226,6 +227,7 @@ in {
     lgogdownloader
     virt-what
     # mininet
+    bluetui
     rclone
     ffmpeg
     fio
@@ -240,19 +242,21 @@ in {
     clair
     libcgroup
     vmtouch
-    spotify
+    # spotify
     pulseaudioFull
     noisetorch
-    prometheus
+    # prometheus
     sshpass
     ubridge
     vpcs
-    python39Packages.pip
-    (python39.withPackages (ps: with ps; [ pip python-gitlab ovs ]))
-    element-desktop
+    python312Packages.pip
+    # (python39.withPackages (ps: with ps; [ pip python-gitlab ovs ]))
+    # element-desktop
     pwgen
     tcpdump
     yq
+    btop
   ];
   fonts.fonts = with pkgs; [ jetbrains-mono siji ];
+
 }

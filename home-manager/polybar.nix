@@ -29,8 +29,8 @@
         font-2 = "siji:pixelsize=20;1";
         modules-left = "i3";
         modules-center = "";
-        modules-right = "pulseaudio backlight-acpi filesystem xkeyboard memory cpu battery wlan date";
-        tray-position = "right";
+        modules-right = "temperature pulseaudio backlight-acpi filesystem xkeyboard memory cpu battery wlan date";
+        tray-position = "left";
         tray-padding = 0;
         tray-scale = "1.0";
         tray-maxsize = 23;
@@ -49,6 +49,13 @@
         primary = "#ffb52a";
         secondary = "#e60053";
         alert = "#bd2c40";
+      };
+
+      "module/temperature" = {
+        type = "internal/temperature";
+        interval = "0.5";
+
+        format = "<ramp> <label>";
       };
 
       "module/pulseaudio" = {

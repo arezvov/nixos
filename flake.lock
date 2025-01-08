@@ -18,28 +18,6 @@
         "type": "github"
       }
     },
-    "ipmi": {
-      "inputs": {
-        "flake-compat": "flake-compat",
-        "nixpkgs": "nixpkgs_2",
-        "nixpkgs-15-09": "nixpkgs-15-09",
-        "nixpkgs-unstable": "nixpkgs-unstable"
-      },
-      "locked": {
-        "lastModified": 1614785334,
-        "narHash": "sha256-aRDWwzVRw28HrFRT7Sveufc04o/wSGMBeKWX+spC0K4=",
-        "ref": "flake",
-        "rev": "0155d23e6d636163a481f22c70bfb5937d950b86",
-        "revCount": 28,
-        "type": "git",
-        "url": "ssh://git@github.com/6d6a/utils-nix-ipmi.git"
-      },
-      "original": {
-        "ref": "flake",
-        "type": "git",
-        "url": "ssh://git@github.com/6d6a/utils-nix-ipmi.git"
-      }
-    },
     "nix-darwin": {
       "inputs": {
         "nixpkgs": [
@@ -93,28 +71,12 @@
       }
     },
     "nixpkgs_2": {
-      "flake": false,
       "locked": {
-        "lastModified": 1570630026,
-        "narHash": "sha256-GUKHrnng33luc6mUT3rDnZ3Hm+4MMEJpEchRIAQx7JQ=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "75f4ba05c63be3f147bcc2f7bd4ba1f029cedcb1",
-        "type": "github"
-      },
-      "original": {
-        "id": "nixpkgs",
-        "ref": "19.09",
-        "type": "indirect"
-      }
-    },
-    "nixpkgs_3": {
-      "locked": {
-        "lastModified": 1728018373,
-        "narHash": "sha256-NOiTvBbRLIOe5F6RbHaAh6++BNjsb149fGZd1T4+KBg=",
+        "lastModified": 1736012469,
+        "narHash": "sha256-/qlNWm/IEVVH7GfgAIyP6EsVZI6zjAx1cV5zNyrs+rI=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "bc947f541ae55e999ffdb4013441347d83b00feb",
+        "rev": "8f3e1f807051e32d8c95cd12b9b421623850a34d",
         "type": "github"
       },
       "original": {
@@ -127,23 +89,9 @@
     "root": {
       "inputs": {
         "home-manager": "home-manager",
-        "ipmi": "ipmi",
         "nix-darwin": "nix-darwin",
-        "nixpkgs": "nixpkgs_3",
-        "nixpkgs-master": "nixpkgs-master",
-        "secrets": "secrets"
-      }
-    },
-    "secrets": {
-      "locked": {
-        "lastModified": 0,
-        "narHash": "sha256-D+aTyUxN3jMlPe753883XTkbdB0EU+u95O/GFM1/vLU=",
-        "type": "git",
-        "url": "file:///home/alex/git/nixos-secrets"
-      },
-      "original": {
-        "type": "git",
-        "url": "file:///home/alex/git/nixos-secrets"
+        "nixpkgs": "nixpkgs_2",
+        "nixpkgs-master": "nixpkgs-master"
       }
     }
   },

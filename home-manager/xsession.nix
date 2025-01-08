@@ -13,15 +13,16 @@
       in {
         "${mod}+Return" = "exec alacritty";
         "Mod1+e" = "exec /home/alex/scripts/translate-notify";
-        "Mod1+w --release" = "exec /home/alex/scripts/cb 2&>1 /tmp/cb.log";
+        #"Mod1+w --release" = "exec /home/alex/scripts/cb 2&>1 /tmp/cb.log";
         "control+Mod1+l" = "exec ${pkgs.i3lock-fancy-rapid}/bin/i3lock-fancy-rapid 15 20";
-        "${mod}+q" = "exec CM_HISTLENGTH=30 clipmenu -i -fn Terminus:size=10 -nb '#002b36' -nf '#839496' -sb '#073642' -sf '#93a1a1'";
+        "${mod}+q" = "exec clipcat-menu";
+        #"${mod}+q" = "exec CM_HISTLENGTH=30 clipmenu -i -fn Terminus:size=10 -nb '#002b36' -nf '#839496' -sb '#073642' -sf '#93a1a1'";
         # "control+Mod1+l" = "exec ${pkgs.i3lock-fancy-rapid}/bin/i3lock-fancy-rapid 3 10";
         #"${mod}+q" =
         #  "exec CM_HISTLENGTH=30 clipmenu -i -fn Terminus:size=10 -nb '#002b36' -nf '#839496' -sb '#073642' -sf '#93a1a1'";
         "${mod}+Shift+q" = "kill";
         "${mod}+d" = "exec dmenu_run";
-        "${mod}+z" = "exec passmenu -l 50";
+        "${mod}+z" = "Fxec passmenu -l 50";
 
         "${mod}+j" = "focus left";
         "${mod}+k" = "focus down";

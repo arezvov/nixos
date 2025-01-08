@@ -13,7 +13,7 @@ in {
     export CERBERUS_KEY='${secrets.cerb_key}'
     export CERBERUS_SECRET='${secrets.cerb_secret}'
     export SLACK_API_KEY='${secrets.slack_api_key}'
-    # export IPMI_PASSWORD='${secrets.ipmi_pass}'
+    export IPMI_PASSWORD='${secrets.ipmi_pass}'
     export SYSTEMD_PAGER=
     export NIXOS_CONFIG="/home/alex/nixos/configuration.nix"
     export LIBVIRT_DEFAULT_URI='qemu:///system'
@@ -48,10 +48,11 @@ in {
   services = {
     clipmenu.enable = true;
     espanso.enable = true;
+    clipcat.enable = true;
 
     openssh = {
       enable = true;
-      forwardX11 = true;
+      settings.X11Forwarding = true;
     };
   };
 

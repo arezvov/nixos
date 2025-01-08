@@ -29,7 +29,7 @@ in {
       default = 2;
     };
 
-    kernelPackages = pkgs.linuxPackages_6_10;
+    kernelPackages = pkgs.linuxPackages_6_12;
     kernel.sysctl = {
       "net.ipv4.ip_default_ttl" = 65;
       "kernel.perf_event_paranoid" = 1;
@@ -54,12 +54,18 @@ in {
   #  memoryPercent = 100;
   #};
 
-  #security.wrappers = {
+  security.wrappers = {
     # ubridge = {
     #  source  = "${pkgs.ubridge}/bin/ubridge";
     #  capabilities = "cap_net_admin,cap_net_raw=ep";
-    #};
-  #};
+    # };
+    iotopc = {
+      owner = "root";
+      group = "root";
+      source = "${pkgs.iotop-c}/bin/iotop-c";
+      capabilities = "cap_net_admin+eip";
+    };
+  };
 
   virtualisation = {
     incus = {
@@ -124,7 +130,7 @@ in {
     '';
   };
 
-  # system.stateVersion = "20.03"; # Did you read the comment?
+  system.stateVersion = "24.11"; # Did you read the comment?
 
 }
 

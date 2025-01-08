@@ -6,7 +6,6 @@
     nixpkgs-master.url = "github:nixos/nixpkgs/master";
     # nixpkgs-dev.url = "git+file:///home/alex/src/nixpkgs";
     home-manager.url = "github:nix-community/home-manager";
-    # ipmi.url = "git+ssh://git@github.com/6d6a/utils-nix-ipmi.git?ref=flake";
 
     nix-darwin.url = "github:LnL7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
@@ -51,21 +50,6 @@
         specialArgs = { 
           inherit inputs system pkgs pkgs-master self;
           # inherit pkgs-dev;
-        };
-      };
-      work = inputs.nixpkgs.lib.nixosSystem {
-        inherit system;
-        modules = [
-          ./configuration-work.nix
-          inputs.home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.alex = import ./home-manager/default.nix; 
-          }
-        ];
-        specialArgs = {
-          inherit inputs pkgs pkgs-master self;
         };
       };
       home = inputs.nixpkgs.lib.nixosSystem {
