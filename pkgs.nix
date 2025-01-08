@@ -126,7 +126,7 @@ in {
     bvi
     file
     sqlite
-    # nixfmt
+    nixfmt
     ansible
     openssl
     quassel

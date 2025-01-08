@@ -1,8 +1,8 @@
 { config, pkgs, ... }:
 
 {
-    programs.pyenv = {
-        enable = true;
-        enableBashIntegration = true;
-    };
+  programs.pyenv = {
+    enable = true;
+    enableBashIntegration = true;
+  };
 }

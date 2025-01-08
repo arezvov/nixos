@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ./bash.nix
+    ./shell.nix
     ./polybar.nix
     ./xsession.nix
     ./alacritty.nix
@@ -69,6 +69,7 @@
       '';
     };
   };
+  
   services = {
     mpris-proxy = {
       enable = true;

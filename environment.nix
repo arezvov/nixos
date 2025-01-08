@@ -43,6 +43,7 @@ in {
       set tabsize 4
     '';
     bash.enableCompletion = true;
+    zsh.enable = true;
   };
 
   services = {
