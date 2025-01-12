@@ -15,7 +15,6 @@
       ./users.nix
       ./services.nix
       ./hosts.nix
-      # ./openvpn.nix
     ];
 
   boot = {

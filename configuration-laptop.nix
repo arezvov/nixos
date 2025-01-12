@@ -33,7 +33,6 @@ in {
       ./environment.nix
       ./users.nix
       ./services.nix
-      # ./openvpn.nix
       ./hosts.nix
     ];
 
@@ -99,19 +98,6 @@ in {
         cpupower frequency-set --max 1400000 --governor powersave
       fi
     '';
-  };
-
-  services.openvpn.servers = {
-    mj = {
-      config = "config /etc/openvpn/mj.conf";
-      autoStart = true;
-      updateResolvConf = true;
-    };
-    nh = {
-      config = "config /etc/openvpn/nh.conf";
-      autoStart = true;
-      updateResolvConf = true;
-    };
   };
 
   services.xserver = {
