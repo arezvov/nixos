@@ -32,6 +32,8 @@
   };
 
   hardware = {
+    keyboard.qmk.enable = true;
+    
     bluetooth = {
       enable = true;
       settings = {
