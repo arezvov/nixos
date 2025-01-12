@@ -7,6 +7,7 @@
       vSync = true;
       fade = true;
       shadow = true;
+      backend = "glx";
       # fadeSteps = [ 0.01 0.15 ];
       fadeDelta = 5;
       # package = pkgs.picom-pijulius;

@@ -249,13 +249,16 @@ in {
     sshpass
     ubridge
     vpcs
-    python312Packages.pip
+    python313
+    python313Full
+    # python313Packages.pip
     # (python39.withPackages (ps: with ps; [ pip python-gitlab ovs ]))
     # element-desktop
     pwgen
     tcpdump
     yq
     btop
+    remmina
   ];
   fonts.packages = with pkgs; [ jetbrains-mono siji ];
 
