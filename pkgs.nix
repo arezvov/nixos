@@ -66,7 +66,6 @@ in {
     # geany
     pavucontrol
     git
-    openvpn
     nix-bash-completions
     xsel
     dunst
@@ -196,6 +195,7 @@ in {
     fatrace
     rustc
     cargo
+    go
     # influxdb
     radare2
     xrdp
