@@ -23,7 +23,6 @@ let
         done
     '';
 
-    secrets = inputs.secrets.secrets;
 in {
   nixpkgs.config.allowUnfree = true;
 
@@ -34,7 +33,7 @@ in {
       ./environment.nix
       ./users.nix
       ./services.nix
-      ./openvpn.nix
+      # ./openvpn.nix
       ./hosts.nix
     ];
 
@@ -81,27 +80,6 @@ in {
     useDHCP = false;
     interfaces.wlan0.useDHCP = true;
     interfaces.enp3s0f4u1.useDHCP = true;
-
-    wireless = {
-      iwd.enable = true;
-      # enable = true;
-      networks = {
-        "${secrets.home_wifi_ssid}" = {
-          psk = secrets.home_wifi_pass;
-          priority = 0;
-        };
-
-        "${secrets.smart_wifi_ssid}" = {
-          psk = secrets.smart_wifi_pass;
-          priority = 100;
-        };
-
-        "JuicySmoke" = {
-          psk = "juicysmoke";
-          priority = 50;
-        };
-      };
-    };
   };
 
   programs.light.enable = true;

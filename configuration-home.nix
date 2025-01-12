@@ -3,10 +3,8 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, inputs, ... }:
-
-let
-    secrets = inputs.secrets.secrets;
-in {
+ 
+{
   nixpkgs.config.allowUnfree = true;
 
   imports =
