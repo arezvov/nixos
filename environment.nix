@@ -1,4 +1,4 @@
-{ config, inputs, ... }:
+{ config, inputs, pkgs-master, ... }:
 
 {
   environment.interactiveShellInit = '' 
@@ -36,10 +36,12 @@
   };
 
   services = {
-    clipmenu.enable = true;
+    clipmenu.enable = false;
     espanso.enable = true;
-    clipcat.enable = true;
-
+    clipcat = {
+      enable = true;
+      package = pkgs-master.clipcat;
+    };
     openssh = {
       enable = true;
       settings.X11Forwarding = true;

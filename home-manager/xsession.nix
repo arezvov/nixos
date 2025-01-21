@@ -33,6 +33,7 @@
       in {
         "${mod}+Return" = "exec alacritty";
         "Mod1+e" = "exec /home/alex/scripts/translate-notify";
+        "${mod}+t" = "exec --no-startup-id /home/alex/scripts/OpenTG.sh";
         #"Mod1+w --release" = "exec /home/alex/scripts/cb 2&>1 /tmp/cb.log";
         "control+Mod1+l" = "exec ${pkgs.i3lock-fancy-rapid}/bin/i3lock-fancy-rapid 15 20";
         "${mod}+q" = "exec clipcat-menu";
@@ -157,7 +158,7 @@
       set $ws7 "7"
       set $ws8 "8"
       set $ws9 "9"
-      set $ws10 "10"              
+      set $ws10 "10"
     '';
   };
 }
