@@ -261,6 +261,7 @@ in {
     yq
     btop
     remmina
+    fpm
   ];
   fonts.packages = with pkgs; [ jetbrains-mono siji ];
 
