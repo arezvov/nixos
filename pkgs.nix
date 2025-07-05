@@ -59,6 +59,7 @@ in {
     obsidian
     pkgs-master.nekoray
     pkgs-master.vscode-fhs
+    pkgs-master.code-cursor
     pkgs-master.prismlauncher
     pkgs-master.winbox4
     # virtualbox
@@ -127,6 +128,7 @@ in {
     sqlite
     nixfmt-classic
     ansible
+    ansible-lint
     openssl
     quassel
     imagemagick
@@ -147,7 +149,7 @@ in {
     valgrind
     exim
     lsof
-    qtcreator
+    #qtcreator
     automake
     gtk2
     gtk2-x11

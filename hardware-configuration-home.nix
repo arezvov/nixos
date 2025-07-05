@@ -14,7 +14,7 @@
       kernelModules = [ ];
     };
     extraModulePackages = with pkgs; [ linuxPackages_6_12.sysdig linuxPackages_6_12.tmon ];
-    tmp.useTmpfs = true;
+    #tmp.useTmpfs = true;
     kernelModules = [ "kvm-amd" ];
   };
   
@@ -28,6 +28,9 @@
     "/" = { 
       device = "/dev/disk/by-label/nixos";
       fsType = "ext4";
+    };
+    "/boot" = {
+      device = "/dev/disk/by-label/NIXOS-BOOT";
     };
   };
 

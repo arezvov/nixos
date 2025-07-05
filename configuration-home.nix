@@ -18,11 +18,23 @@
     ];
 
   boot = {
-    loader.grub = {
-      enable = true;
-      useOSProber = true;
-      device = "/dev/sda"; # or "nodev" for efi only
-      default = 2;
+    loader = {
+      efi.canTouchEfiVariables = true;
+      grub = {
+        enable = true;
+        useOSProber = true;
+        efiSupport = true;
+        device = "nodev"; # or "nodev" for efi only
+        default = 0;
+        #extraEntries = ''
+        #  menuentry 'Windows 11' {
+        #    insmod part_gpt
+        #
+        #    search --fs-uuid --no-floppy --set=root B298-3EE0
+        #    chainloader (''${root})/EFI/Microsoft/Boot/bootmgfw.efi
+        #  }
+        #'';
+      };
     };
 
     kernelPackages = pkgs.linuxPackages_6_12;
@@ -44,11 +56,11 @@
 
   # services.teamviewer.enable = true;
 
-  #zramSwap = {
-  #  enable = true;
+  zramSwap = {
+   enable = true;
   #  numDevices = 12;
-  #  memoryPercent = 100;
-  #};
+   memoryPercent = 100;
+  };
 
   security.wrappers = {
     # ubridge = {
@@ -198,8 +210,14 @@
     };
 
     displayManager = {
-        defaultSession = "none+i3";
-        #lightdm.greeters.pantheon.enable = true;
+         defaultSession = "none+i3";
+         #lightdm.greeters.pantheon.enable = true;
+    };
+
+    desktopManager = {
+      plasma6 = {
+        enable = true;
+      };
     };
 
     pulseaudio = {
