@@ -251,6 +251,7 @@ in {
     sshpass
     ubridge
     vpcs
+    python310Full
     python313
     python313Full
     # python313Packages.pip
@@ -262,6 +263,8 @@ in {
     btop
     remmina
     fpm
+    uv
+    ruff
   ];
   fonts.packages = with pkgs; [ jetbrains-mono siji ];
 
