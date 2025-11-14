@@ -51,20 +51,19 @@ let
   });
 
 in {
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = 
+  with pkgs; [
     wget
     libguestfs-with-appliance
     vim
-    pkgs-master.tdesktop
+    pkgs-master.telegram-desktop
     obsidian
     pkgs-master.nekoray
     pkgs-master.vscode-fhs
     pkgs-master.code-cursor
     pkgs-master.prismlauncher
     pkgs-master.winbox4
-    # virtualbox
     htop
-    # geany
     pavucontrol
     git
     nix-bash-completions
@@ -97,9 +96,6 @@ in {
     mycli
     xorg.xhost
     bc
-    # lua5_3
-    # lua53Packages.luaposix
-    ipmitool
     killall
     dive
     redis
@@ -110,7 +106,6 @@ in {
     dpkg
     unzip
     pandoc
-    woof
     docker-compose
     mariadb
     mutt
@@ -132,7 +127,6 @@ in {
     openssl
     quassel
     imagemagick
-    libreoffice
     parallel
     netcat
     netcat-gnu
@@ -147,24 +141,17 @@ in {
     iotop-c
     perl
     valgrind
-    exim
     lsof
-    #qtcreator
     automake
     gtk2
     gtk2-x11
     pkgs-master.discord
-    # gnome3.nautilus
-    mono6
     screen
     davfs2
     wine
     winePackages.stable
     dmidecode
     iperf3
-    #vscode
-    codeblocksFull
-    # dovecot_pigeonhole
     unrar
     libchardet
     hwloc
@@ -181,8 +168,6 @@ in {
     p7zip
     tmux
     pinentry-curses
-    # steam
-    #jetbrains.clion
     tmux-xpanes
     sysbench
     lm_sensors
@@ -198,16 +183,12 @@ in {
     rustc
     cargo
     go
-    # influxdb
     radare2
     xrdp
     openttd
     pkgs-master.minikube
     kubectl
     kubernetes-helm
-    # linuxPackages_5_10.cpupower
-    # linuxPackages_5_10.bpftrace
-    # linuxPackages_5_10.sysdig
     fwupd
     innoextract
     efitools
@@ -228,7 +209,6 @@ in {
     bridge-utils
     lgogdownloader
     virt-what
-    # mininet
     bluetui
     rclone
     ffmpeg
@@ -244,19 +224,11 @@ in {
     clair
     libcgroup
     vmtouch
-    # spotify
     pulseaudioFull
     noisetorch
-    # prometheus
     sshpass
     ubridge
     vpcs
-    python310Full
-    python313
-    python313Full
-    # python313Packages.pip
-    # (python39.withPackages (ps: with ps; [ pip python-gitlab ovs ]))
-    # element-desktop
     pwgen
     tcpdump
     yq
