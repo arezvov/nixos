@@ -2,39 +2,45 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, inputs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 
 let
-    pa-volume = pkgs.writeScript "pa-volume" ''
-        #!${pkgs.bash}/bin/bash
+  pa-volume = pkgs.writeScript "pa-volume" ''
+    #!${pkgs.bash}/bin/bash
 
-        for sink in $(${pkgs.pulseaudio}/bin/pactl list sinks | grep "Sink #" | cut -b7-);
-        do
-            ${pkgs.pulseaudio}/bin/pactl -- set-sink-volume $sink $1%
-        done
-    '';
+    for sink in $(${pkgs.pulseaudio}/bin/pactl list sinks | grep "Sink #" | cut -b7-);
+    do
+        ${pkgs.pulseaudio}/bin/pactl -- set-sink-volume $sink $1%
+    done
+  '';
 
-    pa-mute = pkgs.writeScript "pa-mute" ''
-        #!${pkgs.bash}/bin/bash
+  pa-mute = pkgs.writeScript "pa-mute" ''
+    #!${pkgs.bash}/bin/bash
 
-        for sink in $(${pkgs.pulseaudio}/bin/pactl list sinks | grep "Sink #" | cut -b7-);
-        do
-            ${pkgs.pulseaudio}/bin/pactl -- set-sink-mute $sink toggle;
-        done
-    '';
+    for sink in $(${pkgs.pulseaudio}/bin/pactl list sinks | grep "Sink #" | cut -b7-);
+    do
+        ${pkgs.pulseaudio}/bin/pactl -- set-sink-mute $sink toggle;
+    done
+  '';
 
-in {
+in
+{
   nixpkgs.config.allowUnfree = true;
 
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration-laptop.nix
-      ./pkgs.nix
-      ./environment.nix
-      ./users.nix
-      ./services.nix
-      ./hosts.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration-laptop.nix
+    ./pkgs.nix
+    ./environment.nix
+    ./users.nix
+    ./services.nix
+    ./hosts.nix
+  ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot = {
@@ -51,9 +57,8 @@ in {
   };
 
   nixpkgs.config.permittedInsecurePackages = [
-   "openssl-1.0.2u"
+    "openssl-1.0.2u"
   ];
-
 
   hardware.opengl.driSupport32Bit = true;
   programs = {
@@ -69,7 +74,7 @@ in {
 
   security.wrappers = {
     ubridge = {
-      source  = "${pkgs.ubridge}/bin/ubridge";
+      source = "${pkgs.ubridge}/bin/ubridge";
       capabilities = "cap_net_admin,cap_net_raw=ep";
     };
   };
@@ -103,13 +108,16 @@ in {
   services.xserver = {
     enable = true;
     displayManager = {
-        defaultSession = "none+i3";
-        #lightdm.greeters.pantheon.enable = true;
+      defaultSession = "none+i3";
+      #lightdm.greeters.pantheon.enable = true;
     };
     windowManager.i3 = {
       enable = true;
       extraPackages = with pkgs; [
-        dmenu polybarFull i3lock-fancy i3lock-fancy-rapid
+        dmenu
+        polybarFull
+        i3lock-fancy
+        i3lock-fancy-rapid
       ];
     };
     synaptics.enable = true;
@@ -119,7 +127,7 @@ in {
     gc.automatic = true;
     gc.options = "--delete-older-than 14d";
     requireSignedBinaryCaches = false;
-    package = pkgs.nixUnstable;
+    package = pkgs.nix;
     extraOptions = ''
       binary-caches = https://cache.nixos.org/
       experimental-features = nix-command flakes
@@ -129,4 +137,3 @@ in {
   system.stateVersion = "20.03"; # Did you read the comment?
 
 }
-

@@ -24,7 +24,7 @@ in {
     vim
     pkgs-master.telegram-desktop
     obsidian
-    pkgs-master.nekoray
+    pkgs-master.throne
     pkgs-master.vscode-fhs
     pkgs-master.code-cursor
     pkgs-master.prismlauncher
@@ -59,7 +59,7 @@ in {
     xdotool
     tigervnc
     mycli
-    xorg.xhost
+    xhost
     bc
     killall
     dive
@@ -67,7 +67,7 @@ in {
     jdk11
     temurin-bin-17
     adoptopenjdk-icedtea-web
-    xorg.xbacklight
+    xbacklight
     dpkg
     unzip
     pandoc
@@ -179,8 +179,8 @@ in {
     fio
     #gns3-server
     #gns3-gui
-    xorg.xev
-    xorg.xkill
+    xev
+    xkill
     sysstat
     efibootmgr
     nvme-cli

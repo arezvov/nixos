@@ -47,7 +47,7 @@
           }
         ];
         specialArgs = { 
-          inherit inputs system pkgs pkgs-master self;
+          inherit inputs system pkgs-master self;
           # inherit pkgs-dev;
         };
       };
@@ -63,7 +63,7 @@
           }
         ];
         specialArgs = {
-          inherit inputs pkgs pkgs-master self;
+          inherit inputs pkgs-master self;
         };
       };
     };
