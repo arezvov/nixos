@@ -103,9 +103,7 @@
 
     windowManager.i3 = {
       enable = true;
-      extraPackages = with pkgs; [
-        dmenu polybarFull i3lock-fancy i3lock-fancy-rapid
-      ];
+      extraPackages = [ ];
     };
   };
 

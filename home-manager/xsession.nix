@@ -1,6 +1,75 @@
 { config, pkgs, ... }:
 
+let
+  translate-notify = pkgs.writeShellScriptBin "translate-notify" ''
+    if [[ $1 = -h || $1 = --help ]]; then
+      echo "Usage: translate-notify from_lang to_lang text"
+      echo "If text is omitted, xsel buffer will be used"
+      echo "If languages are omitted, en-to-ru will be used"
+      exit
+    fi
+
+    T_FROM="''${1:-en}"
+    T_TO="''${2:-ru}"
+    SELECTED_TEXT="''${3:-$(${pkgs.xsel}/bin/xsel -o)}"
+
+    echo "$SELECTED_TEXT"
+
+    GT_RESPONSE=$(${pkgs.wget}/bin/wget -U "Mozilla/5.0" -qO - \
+      "http://translate.googleapis.com/translate_a/single?client=gtx&sl=$T_FROM&tl=$T_TO&dt=t&q=$SELECTED_TEXT")
+    RESULT=$(${pkgs.python3}/bin/python3 -c "\
+import re;
+for s in re.compile('\[\".*?\",').findall('''$GT_RESPONSE'''):\
+    print(s[2:-2])")
+    WORDS=$(echo "$RESULT" | ${pkgs.coreutils}/bin/wc -w)
+    TIMER=$((1500 + 500 * WORDS))
+    echo "$RESULT"
+    ${pkgs.libnotify}/bin/notify-send -i chromium -t "$TIMER" -u low "G: $RESULT"
+
+    YT_API_KEY_FILE="''${XDG_CONFIG_HOME:-$HOME/.config}/translate-notify/yandex-api-key"
+    if [[ -r "$YT_API_KEY_FILE" ]]; then
+      YT_API_KEY=$(<"$YT_API_KEY_FILE")
+      YT_RESPONSE=$(${pkgs.wget}/bin/wget -U "Mozilla/5.0" -qO - --no-check-certificate \
+        "https://translate.yandex.net/api/v1.5/tr.json/translate?key=$YT_API_KEY&text=$SELECTED_TEXT&lang=$T_TO")
+      RESULT=$(${pkgs.python3}/bin/python3 -c "print(('''$YT_RESPONSE''').split('\"')[-2])")
+      ${pkgs.libnotify}/bin/notify-send -i accessories-dictionary -t "$TIMER" -u low "Y: $RESULT"
+    fi
+  '';
+
+  open-tg = pkgs.writeShellScriptBin "OpenTG.sh" ''
+    window_id=$(${pkgs.i3}/bin/i3-msg -t get_tree \
+      | ${pkgs.jq}/bin/jq '.nodes[] | .. | select(.window_properties?.class? == "TelegramDesktop") | .id')
+    echo "window_id: $window_id"
+
+    if [ -z "$(${pkgs.procps}/bin/pidof Telegram)" ]; then
+      ${pkgs.telegram-desktop}/bin/Telegram &
+    else
+      window_output=$(${pkgs.i3}/bin/i3-msg -t get_tree \
+        | ${pkgs.jq}/bin/jq -r '.nodes[] | .. | select(.window_properties?.class? == "TelegramDesktop") | .output')
+
+      if [ "$window_output" != "__i3" ]; then
+        ${pkgs.i3}/bin/i3-msg "[con_id=$window_id] move scratchpad"
+      else
+        ${pkgs.i3}/bin/i3-msg "[con_id=$window_id] scratchpad show"
+      fi
+    fi
+  '';
+in
 {
+  home.packages =
+    (with pkgs; [
+      dmenu
+      feh
+      i3lock-fancy-rapid
+      pass
+      xbacklight
+      xsel
+    ])
+    ++ [
+      translate-notify
+      open-tg
+    ];
+
   services = {
     picom = {
       enable = true;
@@ -21,6 +90,8 @@
     };
   };
 
+  xsession.enable = true;
+
   xsession.windowManager.i3 = {
     enable = true;
     config = {
@@ -32,8 +103,8 @@
       keybindings = let mod = config.xsession.windowManager.i3.config.modifier;
       in {
         "${mod}+Return" = "exec alacritty";
-        "Mod1+e" = "exec /home/alex/scripts/translate-notify";
-        "${mod}+t" = "exec --no-startup-id /home/alex/scripts/OpenTG.sh";
+        "Mod1+e" = "exec ${translate-notify}/bin/translate-notify";
+        "${mod}+t" = "exec --no-startup-id ${open-tg}/bin/OpenTG.sh";
         #"Mod1+w --release" = "exec /home/alex/scripts/cb 2&>1 /tmp/cb.log";
         "control+Mod1+l" = "exec ${pkgs.i3lock-fancy-rapid}/bin/i3lock-fancy-rapid 15 20";
         "${mod}+q" = "exec clipcat-menu";
@@ -43,7 +114,7 @@
         #  "exec CM_HISTLENGTH=30 clipmenu -i -fn Terminus:size=10 -nb '#002b36' -nf '#839496' -sb '#073642' -sf '#93a1a1'";
         "${mod}+Shift+q" = "kill";
         "${mod}+d" = "exec dmenu_run";
-        "${mod}+z" = "Fxec passmenu -l 50";
+        "${mod}+z" = "exec passmenu -l 50";
 
         "${mod}+j" = "focus left";
         "${mod}+k" = "focus down";
@@ -133,15 +204,10 @@
         };
       };
       modifier = "Mod4";
-      bars = [{ command = "${pkgs.polybarFull}/bin/polybar"; }];
+      bars = [ ];
       terminal = "alacritty";
       workspaceAutoBackAndForth = true;
       startup = [
-        {
-          command = "systemctl --user restart polybar";
-          always = true;
-          notification = true;
-        }
         {
           command = ''setxkbmap "us,ru" ",winkeys" "grp:alt_shift_toggle"'';
           always = true;

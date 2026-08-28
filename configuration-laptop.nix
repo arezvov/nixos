@@ -4,6 +4,7 @@
 
 {
   config,
+  lib,
   pkgs,
   inputs,
   ...
@@ -60,20 +61,20 @@ in
     "openssl-1.0.2u"
   ];
 
-  hardware.opengl.driSupport32Bit = true;
+  hardware.graphics.enable32Bit = true;
   programs = {
     # steam.enable = true;
-    adb.enable = true;
   };
 
   zramSwap = {
     enable = true;
-    numDevices = 12;
     memoryPercent = 100;
   };
 
   security.wrappers = {
     ubridge = {
+      owner = "root";
+      group = "root";
       source = "${pkgs.ubridge}/bin/ubridge";
       capabilities = "cap_net_admin,cap_net_raw=ep";
     };
@@ -85,8 +86,6 @@ in
     interfaces.wlan0.useDHCP = true;
     interfaces.enp3s0f4u1.useDHCP = true;
   };
-
-  programs.light.enable = true;
 
   services.acpid = {
     enable = true;
@@ -107,27 +106,21 @@ in
 
   services.xserver = {
     enable = true;
-    displayManager = {
-      defaultSession = "none+i3";
-      #lightdm.greeters.pantheon.enable = true;
-    };
     windowManager.i3 = {
       enable = true;
-      extraPackages = with pkgs; [
-        dmenu
-        polybarFull
-        i3lock-fancy
-        i3lock-fancy-rapid
-      ];
+      extraPackages = [ ];
     };
-    synaptics.enable = true;
   };
+
+  services.displayManager.defaultSession = "none+i3";
+
+  services.pulseaudio.enable = lib.mkForce false;
 
   nix = {
     gc.automatic = true;
     gc.options = "--delete-older-than 14d";
-    requireSignedBinaryCaches = false;
     package = pkgs.nix;
+    settings.require-sigs = false;
     extraOptions = ''
       binary-caches = https://cache.nixos.org/
       experimental-features = nix-command flakes

@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ ... }:
 
 {
   imports = [
@@ -16,13 +16,4 @@
   ];
 
   home.stateVersion = "24.11";
-
-  services = {
-    mpris-proxy = {
-      enable = true;
-    };
-    clipmenu = {
-      enable = true;
-    };
-  };
 }

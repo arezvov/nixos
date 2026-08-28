@@ -33,8 +33,6 @@ in {
     pavucontrol
     git
     nix-bash-completions
-    xsel
-    dunst
     libnotify
     xdotool
     dnsutils
@@ -46,7 +44,6 @@ in {
     sysbench
     # simplescreenrecorder
     thunderbird
-    feh
     robo3t
     dzen2
     sshfs
@@ -67,7 +64,6 @@ in {
     jdk11
     temurin-bin-17
     adoptopenjdk-icedtea-web
-    xbacklight
     dpkg
     unzip
     pandoc
@@ -77,7 +73,6 @@ in {
     qbittorrent
     php
     yarn
-    flameshot
     gimp
     virt-manager
     vlc
@@ -125,7 +120,6 @@ in {
     avrdude
     audit
     wireshark
-    pass
     gnupg
     ntfs3g
     blktrace
@@ -139,7 +133,6 @@ in {
     pinentry-curses
     pinentry-qt
     pinentry-gnome3
-    polybarFull
     fzf
     sqlitebrowser
     qt5.qtbase
@@ -164,7 +157,6 @@ in {
     siji
     ctop
     rr
-    playerctl
     zsh
     pkgs-master.terraform
     # pkgs-master.terraform-providers.incus

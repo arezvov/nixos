@@ -14,7 +14,7 @@
       kernelModules = [ ];
     };
     extraModulePackages = [ pkgs.linuxPackages_5_10.sysdig ];
-    tmpOnTmpfs = true;
+    tmp.useTmpfs = true;
     kernelModules = [ "kvm-amd" ];
   };
   
@@ -38,11 +38,6 @@
 
   hardware = {
     bluetooth.enable = true;
-    pulseaudio = {
-      enable = true;
-      package = pkgs.pulseaudioFull;
-      systemWide = true;
-    };
   };
 
   swapDevices = [ ];
