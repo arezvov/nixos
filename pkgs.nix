@@ -15,44 +15,10 @@ let
     ];
   };
 
-  kubernetes = pkgs.kubernetes.overrideAttrs (old: rec {
-    version = "1.28.3"; # usually harmless to omit
-    src = pkgs.fetchFromGitHub {
-      owner = "kubernetes";
-      repo = "kubernetes";
-      rev = "v${version}";
-      hash = "sha256-lb9FAk3b6J92viyHzLCzbYRxhQS94/FQvDr1m1kdTq8=";
-    };
-  });
-
-  kubectl = kubernetes.overrideAttrs (_: rec {
-    pname = "kubectl";
-
-    outputs = [ "out" "man" "convert" ];
-
-    WHAT = lib.concatStringsSep " " [
-      "cmd/kubectl"
-      "cmd/kubectl-convert"
-    ];
-
-    installPhase = ''
-      runHook preInstall
-      install -D _output/local/go/bin/kubectl -t $out/bin
-      install -D _output/local/go/bin/kubectl-convert -t $convert/bin
-
-      installManPage docs/man/man1/kubectl*
-
-      installShellCompletion --cmd kubectl \
-        --bash <($out/bin/kubectl completion bash) \
-        --fish <($out/bin/kubectl completion fish) \
-        --zsh <($out/bin/kubectl completion zsh)
-      runHook postInstall
-    '';
-  });
-
 in {
   environment.systemPackages = 
   with pkgs; [
+    android-tools
     wget
     libguestfs-with-appliance
     vim
@@ -82,7 +48,6 @@ in {
     thunderbird
     feh
     robo3t
-    clipit
     dzen2
     sshfs
     libidn2
@@ -110,7 +75,6 @@ in {
     mariadb
     mutt
     qbittorrent
-    nodePackages.node2nix
     php
     yarn
     flameshot
@@ -121,7 +85,7 @@ in {
     bvi
     file
     sqlite
-    nixfmt-classic
+    nixfmt
     ansible
     ansible-lint
     openssl
@@ -174,7 +138,7 @@ in {
     firefox
     pinentry-curses
     pinentry-qt
-    pinentry-gtk2
+    pinentry-gnome3
     polybarFull
     fzf
     sqlitebrowser

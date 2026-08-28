@@ -49,7 +49,6 @@
   #hardware.opengl.driSupport32Bit = true;
   programs = {
     steam.enable = true;
-    adb.enable = true;
   };
 
   services.ntp.enable = true;
@@ -250,4 +249,3 @@
   system.stateVersion = "24.11"; # Did you read the comment?
 
 }
-
