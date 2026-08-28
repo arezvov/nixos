@@ -203,7 +203,7 @@ in {
     playerctl
     zsh
     pkgs-master.terraform
-    pkgs-master.terraform-providers.incus
+    # pkgs-master.terraform-providers.incus
     cdrkit
     ipcalc
     bridge-utils
@@ -213,8 +213,8 @@ in {
     rclone
     ffmpeg
     fio
-    gns3-server
-    gns3-gui
+    #gns3-server
+    #gns3-gui
     xorg.xev
     xorg.xkill
     sysstat

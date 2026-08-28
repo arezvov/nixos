@@ -37,7 +37,7 @@
 
   services = {
     clipmenu.enable = false;
-    espanso.enable = true;
+    espanso.enable = false;
     clipcat = {
       enable = true;
       package = pkgs-master.clipcat;

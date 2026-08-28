@@ -25,7 +25,7 @@
         useOSProber = true;
         efiSupport = true;
         device = "nodev"; # or "nodev" for efi only
-        default = 0;
+        default = 2;
         #extraEntries = ''
         #  menuentry 'Windows 11' {
         #    insmod part_gpt
@@ -44,7 +44,7 @@
     };
   };
 
-  #nixpkgs.config.permittedInsecurePackages = [ "openssl-1.0.2u" ];
+  nixpkgs.config.permittedInsecurePackages = [ "ventoy-1.1.07" ];
 
   #hardware.opengl.driSupport32Bit = true;
   programs = {
@@ -95,10 +95,10 @@
     dpi = 140;
 
     xrandrHeads = [{
-        output = "DP-2";
+        output = "DP-4";
         primary = true;
       } {
-        output = "DP-0";
+        output = "DP-2";
       }
     ];
 
