@@ -209,6 +209,13 @@ in
       workspaceAutoBackAndForth = true;
       startup = [
         {
+          # The Home Manager service may start before i3 has created its IPC
+          # socket. Restart it from i3 so the workspace module can connect.
+          command = "systemctl --user restart polybar.service";
+          always = true;
+          notification = false;
+        }
+        {
           command = ''setxkbmap "us,ru" ",winkeys" "grp:alt_shift_toggle"'';
           always = true;
         }

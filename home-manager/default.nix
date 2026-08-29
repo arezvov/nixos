@@ -12,6 +12,7 @@
     ./git.nix
     ./neovim.nix
     ./pyenv.nix
+    ./restic.nix
     ./vscode.nix
   ];
 
