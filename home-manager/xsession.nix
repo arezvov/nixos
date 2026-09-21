@@ -126,11 +126,11 @@ in
         "XF86AudioMute" = "exec --no-startup-id ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
         "XF86AudioMicMute" = "exec --no-startup-id ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
         "${mod}+Return" = "exec alacritty";
-        "Mod1+e" = "exec ${translate-notify}/bin/translate-notify";
+        "Mod1+e" = "exec --no-startup-id ${translate-notify}/bin/translate-notify";
         "${mod}+t" = "exec --no-startup-id ${open-tg}/bin/OpenTG.sh";
         #"Mod1+w --release" = "exec /home/alex/scripts/cb 2&>1 /tmp/cb.log";
-        "control+Mod1+l" = "exec ${pkgs.i3lock-fancy-rapid}/bin/i3lock-fancy-rapid 15 20";
-        "${mod}+q" = "exec clipcat-menu";
+        "control+Mod1+l" = "exec --no-startup-id ${pkgs.i3lock-fancy-rapid}/bin/i3lock-fancy-rapid 15 20";
+        "${mod}+q" = "exec --no-startup-id clipcat-menu";
         #"${mod}+q" = "exec CM_HISTLENGTH=30 clipmenu -i -fn Terminus:size=10 -nb '#002b36' -nf '#839496' -sb '#073642' -sf '#93a1a1'";
         # "control+Mod1+l" = "exec ${pkgs.i3lock-fancy-rapid}/bin/i3lock-fancy-rapid 3 10";
         #"${mod}+q" =
@@ -200,12 +200,12 @@ in
       };
 
       keycodebindings = {
-        "233" = "exec ${pkgs.brightnessctl}/bin/brightnessctl set +5%";
-        "232" = "exec ${pkgs.brightnessctl}/bin/brightnessctl set 5%-";
-        "172" = "exec ${pkgs.playerctl}/bin/playerctl play-pause";
-        "174" = "exec ${pkgs.playerctl}/bin/playerctl stop";
-        "173" = "exec ${pkgs.playerctl}/bin/playerctl previous";
-        "171" = "exec ${pkgs.playerctl}/bin/playerctl next";
+        "233" = "exec --no-startup-id ${pkgs.brightnessctl}/bin/brightnessctl set +5%";
+        "232" = "exec --no-startup-id ${pkgs.brightnessctl}/bin/brightnessctl set 5%-";
+        "172" = "exec --no-startup-id ${pkgs.playerctl}/bin/playerctl play-pause";
+        "174" = "exec --no-startup-id ${pkgs.playerctl}/bin/playerctl stop";
+        "173" = "exec --no-startup-id ${pkgs.playerctl}/bin/playerctl previous";
+        "171" = "exec --no-startup-id ${pkgs.playerctl}/bin/playerctl next";
         "--release 107" = "exec --no-startup-id ${pkgs.flameshot}/bin/flameshot gui";
       };
 
@@ -232,6 +232,12 @@ in
       workspaceAutoBackAndForth = true;
       startup = [
         {
+          # Set the cursor used over empty workspace areas.
+          command = "${pkgs.xorg.xsetroot}/bin/xsetroot -cursor_name left_ptr";
+          always = true;
+          notification = false;
+        }
+        {
           # The Home Manager service may start before i3 has created its IPC
           # socket. Restart it from i3 so the workspace module can connect.
           command = "systemctl --user restart polybar.service";
@@ -241,6 +247,7 @@ in
         {
           command = ''setxkbmap "us,ru" ",winkeys" "grp:alt_shift_toggle"'';
           always = true;
+          notification = false;
         }
       ];
     };
