@@ -15,7 +15,7 @@ let
   '';
 in
 {
-  services.polybar = { 
+  services.polybar = {
     enable = true;
     script = "polybar bar &";
     package = pkgs.polybarFull;
@@ -142,7 +142,7 @@ in
         label-mode-background = "\${colors.primary}";
         label-focused = "%index%";
         label-focused-background = "\${colors.background-alt}";
-        label-focused-underline= "\${colors.primary}";
+        label-focused-underline = "\${colors.primary}";
         label-focused-padding = 2;
         label-unfocused = "%index%";
         label-unfocused-padding = 2;

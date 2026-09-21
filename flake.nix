@@ -16,80 +16,102 @@
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { 
-    self, 
-    nixpkgs, 
-    nixpkgs-master,
-    nix-darwin,
-    disko,
-    # nixpkgs-dev, 
-    ...  
-  } @ inputs:
-  let 
-    pkgs = import nixpkgs { 
-      inherit system;
-      config.allowUnfree = true; 
-    };
-    pkgs-master = import nixpkgs-master {
-      inherit system;
-      config.allowUnfree = true;
-    };
-    # pkgs-dev = import nixpkgs-dev {
-    #   inherit system;
-    # };
-    system = "x86_64-linux";
-  in {
-    nixosConfigurations = {
-      home = inputs.nixpkgs.lib.nixosSystem {
+  outputs =
+    {
+      self,
+      nixpkgs,
+      nixpkgs-master,
+      nix-darwin,
+      disko,
+      # nixpkgs-dev,
+      ...
+    }@inputs:
+    let
+      pkgs = import nixpkgs {
         inherit system;
-        modules = [
-          inputs.disko.nixosModules.disko
-          ./disk-home.nix
-          ./configuration-home.nix
-          inputs.home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.sharedModules = [ inputs.sops-nix.homeManagerModules.sops ];
-            home-manager.backupFileExtension = "nix-hm-backup";
-            home-manager.extraSpecialArgs = { inherit pkgs-master; };
-            home-manager.useUserPackages = true;
-            home-manager.users.alex = import ./home-manager/default.nix; 
-          }
-        ];
-        specialArgs = {
-          inherit inputs pkgs-master self;
+        config.allowUnfree = true;
+      };
+      pkgs-master = import nixpkgs-master {
+        inherit system;
+        config.allowUnfree = true;
+      };
+      # pkgs-dev = import nixpkgs-dev {
+      #   inherit system;
+      # };
+      system = "x86_64-linux";
+    in
+    {
+      nixosConfigurations = {
+        home = inputs.nixpkgs.lib.nixosSystem {
+          inherit system;
+          modules = [
+            inputs.disko.nixosModules.disko
+            ./disk-home.nix
+            ./configuration-home.nix
+            inputs.home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.sharedModules = [ inputs.sops-nix.homeManagerModules.sops ];
+              home-manager.backupFileExtension = "nix-hm-backup";
+              home-manager.extraSpecialArgs = { inherit pkgs-master; };
+              home-manager.useUserPackages = true;
+              home-manager.users.alex = import ./home-manager/default.nix;
+            }
+          ];
+          specialArgs = {
+            inherit inputs pkgs-master self;
+          };
         };
       };
-    };
 
-    darwinConfigurations = {
-      "vk_macbook" = nix-darwin.lib.darwinSystem {
-        modules = [ 
-          ./configuration-macos.nix 
-          
-          inputs.home-manager.darwinModules.home-manager
-          {
-            home-manager = {
-              backupFileExtension = "nix-hm-backup";
-              users = {
-                "a.rezvov" = import ./home-manager/default-mac.nix; 
+      darwinConfigurations = {
+        "vk_macbook" = nix-darwin.lib.darwinSystem {
+          modules = [
+            ./configuration-macos.nix
+
+            inputs.home-manager.darwinModules.home-manager
+            {
+              home-manager = {
+                backupFileExtension = "nix-hm-backup";
+                users = {
+                  "a.rezvov" = import ./home-manager/default-mac.nix;
+                };
               };
-            };
-          }
+            }
+          ];
+        };
+      };
+
+      darwinPackages = self.darwinConfigurations."vk_macbook".pkgs;
+
+      devShells.${system}.pyenv = pkgs.mkShell {
+        packages = with pkgs; [
+          pyenv
+          pkg-config
+        ];
+        buildInputs = with pkgs; [
+          zlib
+          bzip2
+          xz
+          openssl
+          readline
+          ncurses
+          sqlite
+          libffi
+          gdbm
+          libuuid
+          tk
         ];
       };
+
+      # packages.x86_64-linux = (builtins.head (builtins.attrValues inputs.self.nixosConfigurations)).pkgs;
+
+      # devShell.x86_64-linux = with inputs.self.packages.x86_64-linux;
+      #   mkShell {
+      #     buildInputs = [
+      #       nixUnstable
+      #     ];
+      #   };
+
     };
-     
-    darwinPackages = self.darwinConfigurations."vk_macbook".pkgs;
-
-    # packages.x86_64-linux = (builtins.head (builtins.attrValues inputs.self.nixosConfigurations)).pkgs;
-
-    # devShell.x86_64-linux = with inputs.self.packages.x86_64-linux;
-    #   mkShell {
-    #     buildInputs = [
-    #       nixUnstable
-    #     ];
-    #   };
-
-  };
 }

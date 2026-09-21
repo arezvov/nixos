@@ -26,8 +26,15 @@
     exec = "${pkgs.chatzone-desktop}/bin/chatzone-desktop %u";
     icon = "chatzone-desktop";
     terminal = false;
-    categories = [ "Network" "InstantMessaging" "Chat" ];
-    mimeType = [ "x-scheme-handler/chatzone" "x-scheme-handler/mattermost" ];
+    categories = [
+      "Network"
+      "InstantMessaging"
+      "Chat"
+    ];
+    mimeType = [
+      "x-scheme-handler/chatzone"
+      "x-scheme-handler/mattermost"
+    ];
     settings.StartupWMClass = "Chatzone";
   };
 

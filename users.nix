@@ -14,7 +14,16 @@
 
   users.users.alex = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "docker" "audio" "video" "adbusers" "libvirtd" "qemu-libvirtd" "incus-admin" ];
+    extraGroups = [
+      "wheel"
+      "docker"
+      "audio"
+      "video"
+      "adbusers"
+      "libvirtd"
+      "qemu-libvirtd"
+      "incus-admin"
+    ];
     shell = pkgs.zsh;
   };
 

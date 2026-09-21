@@ -17,16 +17,23 @@ let
       dd status=none if=/proc/''${pid}/mem ibs=4096 skip=$((16#''${range/-*/}/4096)) count=$(((16#''${range/*-/}-16#''${range/-*/})/4096)) | strings
     }
   '';
-in {
+in
+{
   programs = {
     bash = {
       enable = true;
       inherit shellAliases;
       enableCompletion = true;
       initExtra = shellInit;
-      historyControl = [ "ignoreboth" "erasedups" ];
+      historyControl = [
+        "ignoreboth"
+        "erasedups"
+      ];
       historySize = 500000;
-      historyIgnore = [ "cd" "ls" ];
+      historyIgnore = [
+        "cd"
+        "ls"
+      ];
     };
 
     zsh = {

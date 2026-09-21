@@ -9,7 +9,7 @@
     ./neovim.nix
     ./common-packages.nix
   ];
-  
+
   nixpkgs = {
     config = {
       allowUnfree = true;

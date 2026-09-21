@@ -8,38 +8,38 @@ let
   };
 
   translate-notify = pkgs.writeShellScriptBin "translate-notify" ''
-    if [[ $1 = -h || $1 = --help ]]; then
-      echo "Usage: translate-notify from_lang to_lang text"
-      echo "If text is omitted, xsel buffer will be used"
-      echo "If languages are omitted, en-to-ru will be used"
-      exit
-    fi
+        if [[ $1 = -h || $1 = --help ]]; then
+          echo "Usage: translate-notify from_lang to_lang text"
+          echo "If text is omitted, xsel buffer will be used"
+          echo "If languages are omitted, en-to-ru will be used"
+          exit
+        fi
 
-    T_FROM="''${1:-en}"
-    T_TO="''${2:-ru}"
-    SELECTED_TEXT="''${3:-$(${pkgs.xsel}/bin/xsel -o)}"
+        T_FROM="''${1:-en}"
+        T_TO="''${2:-ru}"
+        SELECTED_TEXT="''${3:-$(${pkgs.xsel}/bin/xsel -o)}"
 
-    echo "$SELECTED_TEXT"
+        echo "$SELECTED_TEXT"
 
-    GT_RESPONSE=$(${pkgs.wget}/bin/wget -U "Mozilla/5.0" -qO - \
-      "http://translate.googleapis.com/translate_a/single?client=gtx&sl=$T_FROM&tl=$T_TO&dt=t&q=$SELECTED_TEXT")
-    RESULT=$(${pkgs.python3}/bin/python3 -c "\
-import re;
-for s in re.compile('\[\".*?\",').findall('''$GT_RESPONSE'''):\
-    print(s[2:-2])")
-    WORDS=$(echo "$RESULT" | ${pkgs.coreutils}/bin/wc -w)
-    TIMER=$((1500 + 500 * WORDS))
-    echo "$RESULT"
-    ${pkgs.libnotify}/bin/notify-send -i chromium -t "$TIMER" -u low "G: $RESULT"
+        GT_RESPONSE=$(${pkgs.wget}/bin/wget -U "Mozilla/5.0" -qO - \
+          "http://translate.googleapis.com/translate_a/single?client=gtx&sl=$T_FROM&tl=$T_TO&dt=t&q=$SELECTED_TEXT")
+        RESULT=$(${pkgs.python3}/bin/python3 -c "\
+    import re;
+    for s in re.compile('\[\".*?\",').findall('''$GT_RESPONSE'''):\
+        print(s[2:-2])")
+        WORDS=$(echo "$RESULT" | ${pkgs.coreutils}/bin/wc -w)
+        TIMER=$((1500 + 500 * WORDS))
+        echo "$RESULT"
+        ${pkgs.libnotify}/bin/notify-send -i chromium -t "$TIMER" -u low "G: $RESULT"
 
-    YT_API_KEY_FILE="''${XDG_CONFIG_HOME:-$HOME/.config}/translate-notify/yandex-api-key"
-    if [[ -r "$YT_API_KEY_FILE" ]]; then
-      YT_API_KEY=$(<"$YT_API_KEY_FILE")
-      YT_RESPONSE=$(${pkgs.wget}/bin/wget -U "Mozilla/5.0" -qO - --no-check-certificate \
-        "https://translate.yandex.net/api/v1.5/tr.json/translate?key=$YT_API_KEY&text=$SELECTED_TEXT&lang=$T_TO")
-      RESULT=$(${pkgs.python3}/bin/python3 -c "print(('''$YT_RESPONSE''').split('\"')[-2])")
-      ${pkgs.libnotify}/bin/notify-send -i accessories-dictionary -t "$TIMER" -u low "Y: $RESULT"
-    fi
+        YT_API_KEY_FILE="''${XDG_CONFIG_HOME:-$HOME/.config}/translate-notify/yandex-api-key"
+        if [[ -r "$YT_API_KEY_FILE" ]]; then
+          YT_API_KEY=$(<"$YT_API_KEY_FILE")
+          YT_RESPONSE=$(${pkgs.wget}/bin/wget -U "Mozilla/5.0" -qO - --no-check-certificate \
+            "https://translate.yandex.net/api/v1.5/tr.json/translate?key=$YT_API_KEY&text=$SELECTED_TEXT&lang=$T_TO")
+          RESULT=$(${pkgs.python3}/bin/python3 -c "print(('''$YT_RESPONSE''').split('\"')[-2])")
+          ${pkgs.libnotify}/bin/notify-send -i accessories-dictionary -t "$TIMER" -u low "Y: $RESULT"
+        fi
   '';
 
   open-tg = pkgs.writeShellScriptBin "OpenTG.sh" ''
@@ -117,87 +117,96 @@ in
         style = "monospace";
         size = 12.0;
       };
-      keybindings = let mod = config.xsession.windowManager.i3.config.modifier;
-      in {
-        "XF86AudioRaiseVolume" = "exec --no-startup-id ${pkgs.wireplumber}/bin/wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+";
-        "XF86AudioLowerVolume" = "exec --no-startup-id ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-";
-        "Shift+XF86AudioRaiseVolume" = "exec --no-startup-id ${pkgs.wireplumber}/bin/wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 1%+";
-        "Shift+XF86AudioLowerVolume" = "exec --no-startup-id ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%-";
-        "XF86AudioMute" = "exec --no-startup-id ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
-        "XF86AudioMicMute" = "exec --no-startup-id ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
-        "${mod}+Return" = "exec alacritty";
-        "Mod1+e" = "exec --no-startup-id ${translate-notify}/bin/translate-notify";
-        "${mod}+t" = "exec --no-startup-id ${open-tg}/bin/OpenTG.sh";
-        #"Mod1+w --release" = "exec /home/alex/scripts/cb 2&>1 /tmp/cb.log";
-        "control+Mod1+l" = "exec --no-startup-id ${pkgs.i3lock-fancy-rapid}/bin/i3lock-fancy-rapid 15 20";
-        "${mod}+q" = "exec --no-startup-id clipcat-menu";
-        #"${mod}+q" = "exec CM_HISTLENGTH=30 clipmenu -i -fn Terminus:size=10 -nb '#002b36' -nf '#839496' -sb '#073642' -sf '#93a1a1'";
-        # "control+Mod1+l" = "exec ${pkgs.i3lock-fancy-rapid}/bin/i3lock-fancy-rapid 3 10";
-        #"${mod}+q" =
-        #  "exec CM_HISTLENGTH=30 clipmenu -i -fn Terminus:size=10 -nb '#002b36' -nf '#839496' -sb '#073642' -sf '#93a1a1'";
-        "${mod}+Shift+q" = "kill";
-        "${mod}+d" = "exec --no-startup-id ${config.programs.rofi.package}/bin/rofi -show drun";
-        "${mod}+z" = "exec --no-startup-id ${pass-rofi}/bin/passmenu -i -l 20";
+      keybindings =
+        let
+          mod = config.xsession.windowManager.i3.config.modifier;
+        in
+        {
+          "XF86AudioRaiseVolume" =
+            "exec --no-startup-id ${pkgs.wireplumber}/bin/wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+";
+          "XF86AudioLowerVolume" =
+            "exec --no-startup-id ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-";
+          "Shift+XF86AudioRaiseVolume" =
+            "exec --no-startup-id ${pkgs.wireplumber}/bin/wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 1%+";
+          "Shift+XF86AudioLowerVolume" =
+            "exec --no-startup-id ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%-";
+          "XF86AudioMute" =
+            "exec --no-startup-id ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
+          "XF86AudioMicMute" =
+            "exec --no-startup-id ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
+          "${mod}+Return" = "exec alacritty";
+          "Mod1+e" = "exec --no-startup-id ${translate-notify}/bin/translate-notify";
+          "${mod}+t" = "exec --no-startup-id ${open-tg}/bin/OpenTG.sh";
+          #"Mod1+w --release" = "exec /home/alex/scripts/cb 2&>1 /tmp/cb.log";
+          "control+Mod1+l" = "exec --no-startup-id ${pkgs.i3lock-fancy-rapid}/bin/i3lock-fancy-rapid 15 20";
+          "${mod}+q" = "exec --no-startup-id clipcat-menu";
+          #"${mod}+q" = "exec CM_HISTLENGTH=30 clipmenu -i -fn Terminus:size=10 -nb '#002b36' -nf '#839496' -sb '#073642' -sf '#93a1a1'";
+          # "control+Mod1+l" = "exec ${pkgs.i3lock-fancy-rapid}/bin/i3lock-fancy-rapid 3 10";
+          #"${mod}+q" =
+          #  "exec CM_HISTLENGTH=30 clipmenu -i -fn Terminus:size=10 -nb '#002b36' -nf '#839496' -sb '#073642' -sf '#93a1a1'";
+          "${mod}+Shift+q" = "kill";
+          "${mod}+d" = "exec --no-startup-id ${config.programs.rofi.package}/bin/rofi -show drun";
+          "${mod}+z" = "exec --no-startup-id ${pass-rofi}/bin/passmenu -i -l 20";
 
-        "${mod}+j" = "focus left";
-        "${mod}+k" = "focus down";
-        "${mod}+l" = "focus up";
-        "${mod}+semicolon" = "focus right";
+          "${mod}+j" = "focus left";
+          "${mod}+k" = "focus down";
+          "${mod}+l" = "focus up";
+          "${mod}+semicolon" = "focus right";
 
-        "${mod}+Left" = "focus left";
-        "${mod}+Down" = "focus down";
-        "${mod}+Up" = "focus up";
-        "${mod}+Right" = "focus right";
+          "${mod}+Left" = "focus left";
+          "${mod}+Down" = "focus down";
+          "${mod}+Up" = "focus up";
+          "${mod}+Right" = "focus right";
 
-        "${mod}+Shift+j" = "move left";
-        "${mod}+Shift+k" = "move down";
-        "${mod}+Shift+l" = "move up";
-        "${mod}+Shift+semicolon" = "move right";
+          "${mod}+Shift+j" = "move left";
+          "${mod}+Shift+k" = "move down";
+          "${mod}+Shift+l" = "move up";
+          "${mod}+Shift+semicolon" = "move right";
 
-        "${mod}+Shift+Left" = "move left";
-        "${mod}+Shift+Down" = "move down";
-        "${mod}+Shift+Up" = "move up";
-        "${mod}+Shift+Right" = "move right";
+          "${mod}+Shift+Left" = "move left";
+          "${mod}+Shift+Down" = "move down";
+          "${mod}+Shift+Up" = "move up";
+          "${mod}+Shift+Right" = "move right";
 
-        "${mod}+h" = "split h";
-        "${mod}+v" = "split v";
-        "${mod}+f" = "fullscreen toggle";
-        "${mod}+s" = "layout stacking";
-        "${mod}+w" = "layout tabbed";
-        "${mod}+e" = "layout toggle split";
-        "${mod}+Shift+space" = "floating toggle";
-        "${mod}+space" = "focus mode_toggle";
-        "${mod}+a" = "focus parent";
+          "${mod}+h" = "split h";
+          "${mod}+v" = "split v";
+          "${mod}+f" = "fullscreen toggle";
+          "${mod}+s" = "layout stacking";
+          "${mod}+w" = "layout tabbed";
+          "${mod}+e" = "layout toggle split";
+          "${mod}+Shift+space" = "floating toggle";
+          "${mod}+space" = "focus mode_toggle";
+          "${mod}+a" = "focus parent";
 
-        "${mod}+1" = "workspace $ws1";
-        "${mod}+2" = "workspace $ws2";
-        "${mod}+3" = "workspace $ws3";
-        "${mod}+4" = "workspace $ws4";
-        "${mod}+5" = "workspace $ws5";
-        "${mod}+6" = "workspace $ws6";
-        "${mod}+7" = "workspace $ws7";
-        "${mod}+8" = "workspace $ws8";
-        "${mod}+9" = "workspace $ws9";
-        "${mod}+0" = "workspace $ws10";
+          "${mod}+1" = "workspace $ws1";
+          "${mod}+2" = "workspace $ws2";
+          "${mod}+3" = "workspace $ws3";
+          "${mod}+4" = "workspace $ws4";
+          "${mod}+5" = "workspace $ws5";
+          "${mod}+6" = "workspace $ws6";
+          "${mod}+7" = "workspace $ws7";
+          "${mod}+8" = "workspace $ws8";
+          "${mod}+9" = "workspace $ws9";
+          "${mod}+0" = "workspace $ws10";
 
-        "${mod}+Shift+1" = "move container to workspace $ws1";
-        "${mod}+Shift+2" = "move container to workspace $ws2";
-        "${mod}+Shift+3" = "move container to workspace $ws3";
-        "${mod}+Shift+4" = "move container to workspace $ws4";
-        "${mod}+Shift+5" = "move container to workspace $ws5";
-        "${mod}+Shift+6" = "move container to workspace $ws6";
-        "${mod}+Shift+7" = "move container to workspace $ws7";
-        "${mod}+Shift+8" = "move container to workspace $ws8";
-        "${mod}+Shift+9" = "move container to workspace $ws9";
-        "${mod}+Shift+0" = "move container to workspace $ws10";
+          "${mod}+Shift+1" = "move container to workspace $ws1";
+          "${mod}+Shift+2" = "move container to workspace $ws2";
+          "${mod}+Shift+3" = "move container to workspace $ws3";
+          "${mod}+Shift+4" = "move container to workspace $ws4";
+          "${mod}+Shift+5" = "move container to workspace $ws5";
+          "${mod}+Shift+6" = "move container to workspace $ws6";
+          "${mod}+Shift+7" = "move container to workspace $ws7";
+          "${mod}+Shift+8" = "move container to workspace $ws8";
+          "${mod}+Shift+9" = "move container to workspace $ws9";
+          "${mod}+Shift+0" = "move container to workspace $ws10";
 
-        "${mod}+Shift+c" = "reload";
-        "${mod}+Shift+r" = "restart";
-        "${mod}+Shift+e" = ''
-          exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"'';
+          "${mod}+Shift+c" = "reload";
+          "${mod}+Shift+r" = "restart";
+          "${mod}+Shift+e" =
+            ''exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"'';
 
-        "${mod}+r" = ''mode "resize"'';
-      };
+          "${mod}+r" = ''mode "resize"'';
+        };
 
       keycodebindings = {
         "233" = "exec --no-startup-id ${pkgs.brightnessctl}/bin/brightnessctl set +5%";

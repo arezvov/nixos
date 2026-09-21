@@ -2,18 +2,23 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, inputs, ... }:
- 
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
+
 {
   nixpkgs.config.allowUnfree = true;
 
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration-home.nix
-      ./pkgs.nix
-      ./users.nix
-      ./services.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration-home.nix
+    ./pkgs.nix
+    ./users.nix
+    ./services.nix
+  ];
 
   boot = {
     loader = {
@@ -31,7 +36,10 @@
 
     # Track the latest stable kernel available in the pinned nixpkgs.
     kernelPackages = pkgs.linuxPackages_latest;
-    extraModulePackages = with config.boot.kernelPackages; [ sysdig tmon ];
+    extraModulePackages = with config.boot.kernelPackages; [
+      sysdig
+      tmon
+    ];
     kernel.sysctl = {
       "net.ipv4.ip_default_ttl" = 65;
       "kernel.perf_event_paranoid" = 1;
@@ -51,9 +59,9 @@
   # services.teamviewer.enable = true;
 
   zramSwap = {
-   enable = true;
-  #  numDevices = 12;
-   memoryPercent = 100;
+    enable = true;
+    #  numDevices = 12;
+    memoryPercent = 100;
   };
 
   security.wrappers = {
@@ -92,13 +100,15 @@
 
   services.xserver = {
     enable = true;
-    videoDrivers = ["nvidia"];
+    videoDrivers = [ "nvidia" ];
     dpi = 140;
 
-    xrandrHeads = [{
+    xrandrHeads = [
+      {
         output = "DP-4";
         primary = true;
-      } {
+      }
+      {
         output = "DP-2";
       }
     ];
@@ -209,8 +219,8 @@
     };
 
     displayManager = {
-         defaultSession = "none+i3";
-         #lightdm.greeters.pantheon.enable = true;
+      defaultSession = "none+i3";
+      #lightdm.greeters.pantheon.enable = true;
     };
 
     desktopManager = {

@@ -1,4 +1,13 @@
-{ config, lib, pkgs, pkgs-master, mkDerivation, inputs, system, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  pkgs-master,
+  mkDerivation,
+  inputs,
+  system,
+  ...
+}:
 let
   ovs = pkgs.python39.pkgs.buildPythonPackage rec {
     pname = "ovs";
@@ -15,9 +24,9 @@ let
     ];
   };
 
-in {
-  environment.systemPackages = 
-  with pkgs; [
+in
+{
+  environment.systemPackages = with pkgs; [
     android-tools
     wget
     libguestfs-with-appliance
@@ -43,6 +52,7 @@ in {
     ltrace
     sysbench
     thunderbird
+    libreoffice
     dzen2
     sshfs
     libidn2
@@ -182,6 +192,9 @@ in {
     uv
     ruff
   ];
-  fonts.packages = with pkgs; [ jetbrains-mono siji ];
+  fonts.packages = with pkgs; [
+    jetbrains-mono
+    siji
+  ];
 
 }

@@ -1,8 +1,8 @@
 { config, pkgs, ... }:
 
 {
-    home.packages = with pkgs; [
-        coreutils
-        gnused
-    ];
+  home.packages = with pkgs; [
+    coreutils
+    gnused
+  ];
 }
