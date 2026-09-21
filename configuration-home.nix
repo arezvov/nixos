@@ -20,20 +20,14 @@
   boot = {
     loader = {
       efi.canTouchEfiVariables = true;
-      grub = {
+      limine = {
         enable = true;
-        useOSProber = true;
         efiSupport = true;
-        device = "nodev"; # or "nodev" for efi only
-        default = 2;
-        #extraEntries = ''
-        #  menuentry 'Windows 11' {
-        #    insmod part_gpt
-        #
-        #    search --fs-uuid --no-floppy --set=root B298-3EE0
-        #    chainloader (''${root})/EFI/Microsoft/Boot/bootmgfw.efi
-        #  }
-        #'';
+        extraEntries = ''
+          /Windows
+            protocol: efi
+            path: guid(05a53014-62b6-4ad2-a4de-9610103e406a):/EFI/Microsoft/Boot/bootmgfw.efi
+        '';
       };
     };
 
@@ -87,6 +81,10 @@
     firewall.enable = false;
     interfaces.enp13s0.useDHCP = true;
   };
+
+  home-manager.users.alex.xsession.windowManager.i3.config.workspaceOutputAssign = [
+    { workspace = "1"; output = "DP-4"; } # Hisense 27G7K-PRO
+  ];
 
   services.xserver = {
     enable = true;

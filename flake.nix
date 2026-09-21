@@ -7,6 +7,8 @@
     # nixpkgs-dev.url = "git+file:///home/alex/src/nixpkgs";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    disko.url = "github:nix-community/disko";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
 
     nix-darwin.url = "github:LnL7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
@@ -17,6 +19,7 @@
     nixpkgs, 
     nixpkgs-master,
     nix-darwin,
+    disko,
     # nixpkgs-dev, 
     ...  
   } @ inputs:
@@ -54,6 +57,8 @@
       home = inputs.nixpkgs.lib.nixosSystem {
         inherit system;
         modules = [
+          inputs.disko.nixosModules.disko
+          ./disk-home.nix
           ./configuration-home.nix
           inputs.home-manager.nixosModules.home-manager
           {

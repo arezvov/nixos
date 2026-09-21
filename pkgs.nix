@@ -26,7 +26,6 @@ in {
     obsidian
     pkgs-master.throne
     pkgs-master.vscode-fhs
-    pkgs-master.code-cursor
     pkgs-master.prismlauncher
     pkgs-master.winbox4
     htop
@@ -42,7 +41,6 @@ in {
     whois
     ltrace
     sysbench
-    # simplescreenrecorder
     thunderbird
     robo3t
     dzen2
@@ -159,18 +157,14 @@ in {
     rr
     zsh
     pkgs-master.terraform
-    # pkgs-master.terraform-providers.incus
     cdrkit
     ipcalc
     bridge-utils
-    lgogdownloader
     virt-what
     bluetui
     rclone
     ffmpeg
     fio
-    #gns3-server
-    #gns3-gui
     xev
     xkill
     sysstat
@@ -189,7 +183,6 @@ in {
     tcpdump
     yq
     btop
-    remmina
     fpm
     uv
     ruff

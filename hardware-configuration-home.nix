@@ -24,17 +24,6 @@
   ];
   boot.consoleLogLevel = 7;
 
-  fileSystems = {
-    "/" = { 
-      device = "/dev/disk/by-label/nixos";
-      fsType = "ext4";
-    };
-    "/boot" = {
-      device = "/dev/disk/by-label/NIXOS-BOOT";
-      fsType = "vfat";
-    };
-  };
-
   hardware = {
     keyboard.qmk.enable = true;
     
@@ -56,8 +45,6 @@
       modesetting.enable = true; 
     };
   };
-
-  swapDevices = [ ];
 
   nix.settings.max-jobs = lib.mkDefault 12;
 }
