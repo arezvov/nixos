@@ -31,7 +31,9 @@
       };
     };
 
-    kernelPackages = pkgs.linuxPackages_6_12;
+    # Track the latest stable kernel available in the pinned nixpkgs.
+    kernelPackages = pkgs.linuxPackages_latest;
+    extraModulePackages = with config.boot.kernelPackages; [ sysdig tmon ];
     kernel.sysctl = {
       "net.ipv4.ip_default_ttl" = 65;
       "kernel.perf_event_paranoid" = 1;

@@ -42,7 +42,6 @@ in {
     ltrace
     sysbench
     thunderbird
-    robo3t
     dzen2
     sshfs
     libidn2
@@ -52,8 +51,6 @@ in {
     sieve-connect
     inetutils
     xdotool
-    tigervnc
-    mycli
     xhost
     bc
     killall
@@ -61,15 +58,12 @@ in {
     redis
     jdk11
     temurin-bin-17
-    adoptopenjdk-icedtea-web
     dpkg
     unzip
     pandoc
     docker-compose
-    mariadb
     mutt
     qbittorrent
-    php
     yarn
     gimp
     virt-manager
@@ -132,7 +126,6 @@ in {
     pinentry-qt
     pinentry-gnome3
     fzf
-    sqlitebrowser
     qt5.qtbase
     fatrace
     rustc

@@ -233,7 +233,7 @@ in
       startup = [
         {
           # Set the cursor used over empty workspace areas.
-          command = "${pkgs.xorg.xsetroot}/bin/xsetroot -cursor_name left_ptr";
+          command = "${pkgs.xsetroot}/bin/xsetroot -cursor_name left_ptr";
           always = true;
           notification = false;
         }

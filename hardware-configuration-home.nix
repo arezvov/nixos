@@ -13,7 +13,6 @@
       availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usb_storage" "sd_mod" ];
       kernelModules = [ ];
     };
-    extraModulePackages = with pkgs; [ linuxPackages_6_12.sysdig linuxPackages_6_12.tmon ];
     #tmp.useTmpfs = true;
     kernelModules = [ "kvm-amd" ];
   };
@@ -40,7 +39,7 @@
     };
 
     nvidia = {
-      package = config.boot.kernelPackages.nvidiaPackages.beta;
+      package = config.boot.kernelPackages.nvidiaPackages.latest;
       open = false;
       modesetting.enable = true; 
     };
