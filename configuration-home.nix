@@ -11,7 +11,6 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration-home.nix
       ./pkgs.nix
-      ./environment.nix
       ./users.nix
       ./services.nix
       ./hosts.nix
@@ -48,6 +47,7 @@
   };
 
   services.ntp.enable = true;
+  time.timeZone = "Europe/Moscow";
 
   # services.teamviewer.enable = true;
 
@@ -71,6 +71,13 @@
   };
 
   virtualisation = {
+    libvirtd.enable = true;
+    vswitch.enable = true;
+    docker = {
+      enable = true;
+      liveRestore = false;
+      enableOnBoot = true;
+    };
     incus = {
       enable = true;
       ui.enable = true;

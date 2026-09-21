@@ -47,6 +47,7 @@
           inputs.home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
+            home-manager.backupFileExtension = "nix-hm-backup";
             home-manager.extraSpecialArgs = { inherit pkgs-master; };
             home-manager.useUserPackages = true;
             home-manager.users.alex = import ./home-manager/default.nix; 

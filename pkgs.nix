@@ -23,6 +23,7 @@ in {
     libguestfs-with-appliance
     vim
     pkgs-master.telegram-desktop
+    chatzone-desktop
     obsidian
     pkgs-master.throne
     pkgs-master.vscode-fhs
@@ -137,6 +138,7 @@ in {
     pkgs-master.minikube
     kubectl
     kubernetes-helm
+    pkgs-master.argocd
     fwupd
     innoextract
     efitools

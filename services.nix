@@ -1,6 +1,13 @@
 { config, pkgs, pkgs-master, ... }:
 with pkgs;
 {
+    services.clipmenu.enable = false;
+    services.espanso.enable = false;
+    services.openssh = {
+      enable = true;
+      settings.X11Forwarding = true;
+    };
+
     services.blueman.enable = true;
 
     services.netbird = {
