@@ -34,7 +34,7 @@ local_socket = "/run/user/1000/clipcat/grpc.sock"
 enable = true
 
 [metrics]
-enable = true
+enable = false
 host = "127.0.0.1"
 port = 45047
 
