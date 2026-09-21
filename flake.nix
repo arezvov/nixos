@@ -38,22 +38,6 @@
     system = "x86_64-linux";
   in {
     nixosConfigurations = {
-      laptop = inputs.nixpkgs.lib.nixosSystem {
-        inherit system;
-        modules = [
-          ./configuration-laptop.nix
-          inputs.home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.alex = import ./home-manager/default.nix;
-          }
-        ];
-        specialArgs = { 
-          inherit inputs system pkgs-master self;
-          # inherit pkgs-dev;
-        };
-      };
       home = inputs.nixpkgs.lib.nixosSystem {
         inherit system;
         modules = [

@@ -95,6 +95,13 @@ in
   xsession.windowManager.i3 = {
     enable = true;
     config = {
+      workspaceOutputAssign = [
+        {
+          workspace = "1";
+          output = "DP-4"; # Hisense 27G7K-PRO
+        }
+      ];
+
       fonts = {
         names = [ "pango" ];
         style = "monospace";

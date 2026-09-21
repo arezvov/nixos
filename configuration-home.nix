@@ -82,10 +82,6 @@
     interfaces.enp13s0.useDHCP = true;
   };
 
-  home-manager.users.alex.xsession.windowManager.i3.config.workspaceOutputAssign = [
-    { workspace = "1"; output = "DP-4"; } # Hisense 27G7K-PRO
-  ];
-
   services.xserver = {
     enable = true;
     videoDrivers = ["nvidia"];
