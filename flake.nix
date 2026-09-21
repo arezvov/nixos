@@ -7,6 +7,8 @@
     # nixpkgs-dev.url = "git+file:///home/alex/src/nixpkgs";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    sops-nix.url = "github:Mic92/sops-nix";
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -47,6 +49,7 @@
           inputs.home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
+            home-manager.sharedModules = [ inputs.sops-nix.homeManagerModules.sops ];
             home-manager.backupFileExtension = "nix-hm-backup";
             home-manager.extraSpecialArgs = { inherit pkgs-master; };
             home-manager.useUserPackages = true;

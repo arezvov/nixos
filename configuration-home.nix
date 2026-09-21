@@ -13,7 +13,6 @@
       ./pkgs.nix
       ./users.nix
       ./services.nix
-      ./hosts.nix
     ];
 
   boot = {

@@ -3,6 +3,7 @@
 {
   imports = [
     ./environment.nix
+    ./secrets.nix
     ./shell.nix
     ./polybar.nix
     ./xsession.nix
