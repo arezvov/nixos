@@ -1,5 +1,19 @@
 { pkgs, ... }:
 
+let
+  headphonesBattery = pkgs.writeShellScript "polybar-headphones-battery" ''
+    ${pkgs.systemd}/bin/busctl --system --timeout=5 --json=short \
+      call org.bluez / org.freedesktop.DBus.ObjectManager GetManagedObjects 2>/dev/null |
+      ${pkgs.jq}/bin/jq -r '
+        [.data[0][]
+          | select(."org.bluez.Device1".Connected.data == true)
+          | select(."org.bluez.Device1".Icon.data | . == "audio-headset" or . == "audio-headphones")
+          | ."org.bluez.Battery1".Percentage.data
+          | select(type == "number")
+          | "BT \(.)%"] | join("  ")
+      '
+  '';
+in
 {
   services.polybar = { 
     enable = true;
@@ -29,7 +43,7 @@
         font-2 = "siji:pixelsize=20;1";
         modules-left = "i3";
         modules-center = "";
-        modules-right = "temperature pulseaudio backlight-acpi filesystem xkeyboard memory cpu battery wlan date";
+        modules-right = "temperature pulseaudio headphones-battery backlight-acpi filesystem xkeyboard memory cpu battery wlan date";
         tray-position = "left";
         tray-padding = 0;
         tray-scale = "1.0";
@@ -56,6 +70,14 @@
         interval = "0.5";
 
         format = "<ramp> <label>";
+      };
+
+      "module/headphones-battery" = {
+        type = "custom/script";
+        exec = "${headphonesBattery}";
+        interval = 15;
+        format = "<label>";
+        label = "%output%";
       };
 
       "module/pulseaudio" = {

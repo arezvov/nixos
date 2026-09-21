@@ -1,6 +1,8 @@
 { config, pkgs, ... }:
 with pkgs;
 {
+    services.blueman.enable = true;
+
     services.sysstat = {
       enable = true;
     };

@@ -38,10 +38,6 @@
   services = {
     clipmenu.enable = false;
     espanso.enable = false;
-    clipcat = {
-      enable = true;
-      package = pkgs-master.clipcat;
-    };
     openssh = {
       enable = true;
       settings.X11Forwarding = true;

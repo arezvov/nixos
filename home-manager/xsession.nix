@@ -1,6 +1,12 @@
 { config, pkgs, ... }:
 
 let
+  pass-rofi = pkgs.pass.override {
+    dmenu = pkgs.writeShellScriptBin "dmenu" ''
+      exec ${config.programs.rofi.package}/bin/rofi -dmenu "$@"
+    '';
+  };
+
   translate-notify = pkgs.writeShellScriptBin "translate-notify" ''
     if [[ $1 = -h || $1 = --help ]]; then
       echo "Usage: translate-notify from_lang to_lang text"
@@ -58,14 +64,13 @@ in
 {
   home.packages =
     (with pkgs; [
-      dmenu
       feh
       i3lock-fancy-rapid
-      pass
       xbacklight
       xsel
     ])
     ++ [
+      pass-rofi
       translate-notify
       open-tg
     ];
@@ -90,6 +95,11 @@ in
     };
   };
 
+  programs.rofi = {
+    enable = true;
+    theme = "Arc-Dark";
+  };
+
   xsession.enable = true;
 
   xsession.windowManager.i3 = {
@@ -109,6 +119,12 @@ in
       };
       keybindings = let mod = config.xsession.windowManager.i3.config.modifier;
       in {
+        "XF86AudioRaiseVolume" = "exec --no-startup-id ${pkgs.wireplumber}/bin/wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+";
+        "XF86AudioLowerVolume" = "exec --no-startup-id ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-";
+        "Shift+XF86AudioRaiseVolume" = "exec --no-startup-id ${pkgs.wireplumber}/bin/wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 1%+";
+        "Shift+XF86AudioLowerVolume" = "exec --no-startup-id ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%-";
+        "XF86AudioMute" = "exec --no-startup-id ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
+        "XF86AudioMicMute" = "exec --no-startup-id ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
         "${mod}+Return" = "exec alacritty";
         "Mod1+e" = "exec ${translate-notify}/bin/translate-notify";
         "${mod}+t" = "exec --no-startup-id ${open-tg}/bin/OpenTG.sh";
@@ -120,8 +136,8 @@ in
         #"${mod}+q" =
         #  "exec CM_HISTLENGTH=30 clipmenu -i -fn Terminus:size=10 -nb '#002b36' -nf '#839496' -sb '#073642' -sf '#93a1a1'";
         "${mod}+Shift+q" = "kill";
-        "${mod}+d" = "exec dmenu_run";
-        "${mod}+z" = "exec passmenu -l 50";
+        "${mod}+d" = "exec --no-startup-id ${config.programs.rofi.package}/bin/rofi -show drun";
+        "${mod}+z" = "exec --no-startup-id ${pass-rofi}/bin/passmenu -i -l 20";
 
         "${mod}+j" = "focus left";
         "${mod}+k" = "focus down";
@@ -190,7 +206,7 @@ in
         "174" = "exec ${pkgs.playerctl}/bin/playerctl stop";
         "173" = "exec ${pkgs.playerctl}/bin/playerctl previous";
         "171" = "exec ${pkgs.playerctl}/bin/playerctl next";
-        "107" = "exec ${pkgs.flameshot}/bin/flameshot gui";
+        "--release 107" = "exec --no-startup-id ${pkgs.flameshot}/bin/flameshot gui";
       };
 
       modes = {
