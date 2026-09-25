@@ -145,9 +145,9 @@ in
     radare2
     xrdp
     openttd
-    pkgs-master.minikube
+    # pkgs-master.minikube
     kubectl
-    kubernetes-helm
+    # kubernetes-helm
     pkgs-master.argocd
     fwupd
     innoextract
@@ -191,6 +191,7 @@ in
     fpm
     uv
     ruff
+    codex
   ];
   fonts.packages = with pkgs; [
     jetbrains-mono

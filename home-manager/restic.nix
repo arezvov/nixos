@@ -28,15 +28,6 @@ let
       '
   '';
 
-  shellInit = ''
-    if restic_env="$(${resticEnv})"; then
-      eval "$restic_env"
-    else
-      printf '%s\n' 'Could not load restic environment from SOPS.' >&2
-    fi
-    unset restic_env
-  '';
-
   backupHome = pkgs.writeShellScript "restic-backup-home" ''
     set -eu
 
@@ -55,9 +46,6 @@ let
 in
 {
   home.packages = [ pkgs.restic ];
-
-  programs.bash.initExtra = lib.mkAfter shellInit;
-  programs.zsh.initContent = lib.mkAfter shellInit;
 
   systemd.user.services.restic-backup-home = {
     Unit = {

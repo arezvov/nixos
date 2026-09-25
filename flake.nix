@@ -4,7 +4,6 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-master.url = "github:nixos/nixpkgs/master";
-    # nixpkgs-dev.url = "git+file:///home/alex/src/nixpkgs";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     sops-nix.url = "github:Mic92/sops-nix";
@@ -23,7 +22,6 @@
       nixpkgs-master,
       nix-darwin,
       disko,
-      # nixpkgs-dev,
       ...
     }@inputs:
     let
@@ -35,9 +33,6 @@
         inherit system;
         config.allowUnfree = true;
       };
-      # pkgs-dev = import nixpkgs-dev {
-      #   inherit system;
-      # };
       system = "x86_64-linux";
     in
     {

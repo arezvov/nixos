@@ -1,6 +1,56 @@
-{ config, pkgs, ... }:
+{ config, pkgs, pkgs-master, ... }:
 
 let
+  # Snapshot: DP-4 has browser, code, terminal and work; DP-2 has video.
+  restore-session = pkgs.writeShellScriptBin "restore-desktop-session" ''
+    set -euo pipefail
+    export PATH=${pkgs.lib.makeBinPath [ pkgs.i3 pkgs.jq pkgs.coreutils ]}:"$PATH"
+
+    has_window() {
+      i3-msg -t get_tree | jq -e --arg class "$1" \
+        'any(.. | objects; .window_properties.class? == $class)' >/dev/null
+    }
+
+    # Run only on a fresh i3 login, not on config reload or i3 restart.
+    i3-msg 'workspace --no-auto-back-and-forth "10:Video"; workspace --no-auto-back-and-forth "2:Code"; layout tabbed' >/dev/null
+    if ! has_window code; then
+      ${pkgs-master.vscode-fhs}/bin/code ${pkgs.lib.escapeShellArg "${config.home.homeDirectory}/nixos"} &
+    fi
+    if ! has_window Alacritty; then
+      ${config.programs.alacritty.package}/bin/alacritty \
+        --working-directory ${pkgs.lib.escapeShellArg "${config.home.homeDirectory}/nixos"} &
+    fi
+    if ! has_window TelegramDesktop; then
+      ${pkgs-master.telegram-desktop}/bin/Telegram &
+    fi
+    if ! has_window Google-chrome; then
+      ${pkgs-master.google-chrome}/bin/google-chrome-stable --restore-last-session &
+    fi
+
+    # Chrome windows share WM_CLASS. Identify the saved video window once its
+    # restored tab has loaded; don't move windows on later tab/title changes.
+    video_restored=false
+    focus_restored=false
+    for attempt in $(seq 1 60); do
+      video_id=$(i3-msg -t get_tree | jq -r '
+        first(.. | objects | select(.window_properties.class? == "Google-chrome")
+          | select(.window_properties.title? // "" | contains("YouTube")) | .id) // empty')
+      if [ "$video_restored" = false ] && [ -n "$video_id" ]; then
+        i3-msg "[con_id=$video_id] move container to workspace \"10:Video\"" >/dev/null
+        video_restored=true
+      fi
+      if [ "$focus_restored" = false ] && has_window code && has_window Alacritty \
+        && has_window Google-chrome && has_window TelegramDesktop; then
+        i3-msg 'workspace --no-auto-back-and-forth "2:Code"; [class="^code$"] focus' >/dev/null
+        focus_restored=true
+      fi
+      if [ "$video_restored" = true ] && [ "$focus_restored" = true ]; then
+        break
+      fi
+      sleep 1
+    done
+  '';
+
   toggle-bluetooth = pkgs.writeShellScriptBin "toggle-bluetooth" ''
     set -euo pipefail
 
@@ -121,16 +171,39 @@ in
       floating.criteria = [ { class = "(?i)^blueman-manager$"; } ];
       window.commands = [
         {
+          criteria.class = "^code$";
+          command = "border none";
+        }
+        {
+          criteria.class = "^Chatzone$";
+          command = "border none";
+        }
+        {
+          criteria.class = "^TelegramDesktop$";
+          command = "floating enable, resize set 1910 px 1620 px, move position 960 px 251 px, move scratchpad";
+        }
+        {
           criteria.class = "(?i)^blueman-manager$";
           command = "floating enable, resize set 600 px 450 px, move position center";
         }
       ];
 
+      assigns = {
+        "1:Browser" = [ { class = "^Google-chrome$"; window_role = "^browser$"; } ];
+        "2:Code" = [ { class = "^code$"; } ];
+        "3:Terminal" = [ { class = "^Alacritty$"; } ];
+        "8:Work" = [ { class = "^Chatzone$"; } ];
+      };
+
       workspaceOutputAssign = [
         {
-          workspace = "1";
+          workspace = "1:Browser";
           output = "DP-4"; # Hisense 27G7K-PRO
         }
+        { workspace = "2:Code"; output = "DP-4"; }
+        { workspace = "3:Terminal"; output = "DP-4"; }
+        { workspace = "8:Work"; output = "DP-4"; }
+        { workspace = "10:Video"; output = "DP-2"; }
       ];
 
       fonts = {
@@ -263,6 +336,10 @@ in
       workspaceAutoBackAndForth = true;
       startup = [
         {
+          command = "${restore-session}/bin/restore-desktop-session";
+          notification = false;
+        }
+        {
           # Set the cursor used over empty workspace areas.
           command = "${pkgs.xsetroot}/bin/xsetroot -cursor_name left_ptr";
           always = true;
@@ -283,16 +360,16 @@ in
       ];
     };
     extraConfig = ''
-      set $ws1 "1"
-      set $ws2 "2"
-      set $ws3 "3:tg+slack"
+      set $ws1 "1:Browser"
+      set $ws2 "2:Code"
+      set $ws3 "3:Terminal"
       set $ws4 "4"
       set $ws5 "5"
       set $ws6 "6"
       set $ws7 "7"
-      set $ws8 "8"
+      set $ws8 "8:Work"
       set $ws9 "9"
-      set $ws10 "10"
+      set $ws10 "10:Video"
     '';
   };
 }
