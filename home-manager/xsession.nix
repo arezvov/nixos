@@ -1,6 +1,19 @@
 { config, pkgs, ... }:
 
 let
+  toggle-bluetooth = pkgs.writeShellScriptBin "toggle-bluetooth" ''
+    set -euo pipefail
+
+    tree=$(${pkgs.i3}/bin/i3-msg -t get_tree)
+    if ${pkgs.jq}/bin/jq -e 'any(.. | objects;
+      (.window_properties.class? // "" | ascii_downcase) == "blueman-manager")' \
+      <<< "$tree" >/dev/null; then
+      ${pkgs.i3}/bin/i3-msg '[class="(?i)^blueman-manager$"] kill'
+    else
+      exec ${pkgs.blueman}/bin/blueman-manager
+    fi
+  '';
+
   pass-rofi = pkgs.pass.override {
     dmenu = pkgs.writeShellScriptBin "dmenu" ''
       exec ${config.programs.rofi.package}/bin/rofi -dmenu "$@"
@@ -105,6 +118,14 @@ in
   xsession.windowManager.i3 = {
     enable = true;
     config = {
+      floating.criteria = [ { class = "(?i)^blueman-manager$"; } ];
+      window.commands = [
+        {
+          criteria.class = "(?i)^blueman-manager$";
+          command = "floating enable, resize set 600 px 450 px, move position center";
+        }
+      ];
+
       workspaceOutputAssign = [
         {
           workspace = "1";
@@ -135,6 +156,7 @@ in
           "XF86AudioMicMute" =
             "exec --no-startup-id ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
           "${mod}+Return" = "exec alacritty";
+          "${mod}+b" = "exec --no-startup-id ${toggle-bluetooth}/bin/toggle-bluetooth";
           "Mod1+e" = "exec --no-startup-id ${translate-notify}/bin/translate-notify";
           "${mod}+t" = "exec --no-startup-id ${open-tg}/bin/OpenTG.sh";
           #"Mod1+w --release" = "exec /home/alex/scripts/cb 2&>1 /tmp/cb.log";

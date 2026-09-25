@@ -98,6 +98,15 @@
     interfaces.enp13s0.useDHCP = true;
   };
 
+  systemd.network.links."10-enp13s0" = {
+    matchConfig.MACAddress = "d8:43:ae:67:42:63";
+    linkConfig = {
+      Name = "enp13s0";
+      AutoNegotiation = true;
+      Advertise = "1000baset-full";
+    };
+  };
+
   services.xserver = {
     enable = true;
     videoDrivers = [ "nvidia" ];
