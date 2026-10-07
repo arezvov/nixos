@@ -18,6 +18,7 @@
     ./pkgs.nix
     ./users.nix
     ./services.nix
+    ./storagebox.nix
   ];
 
   boot = {

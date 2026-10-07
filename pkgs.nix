@@ -162,6 +162,9 @@ in
     rr
     zsh
     pkgs-master.terraform
+    pkgs-master.opentofu
+    pkgs-master.terragrunt
+    syncthing
     cdrkit
     ipcalc
     bridge-utils

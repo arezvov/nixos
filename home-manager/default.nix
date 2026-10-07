@@ -4,6 +4,7 @@
   imports = [
     ./environment.nix
     ./secrets.nix
+    ./storagebox.nix
     ./shell.nix
     ./polybar.nix
     ./xsession.nix

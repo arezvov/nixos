@@ -5,6 +5,7 @@ let
     mj_clamav = "/home/alex/work/scripts/python/clamav.py";
     rr = "sudo nixos-rebuild switch --flake /home/alex/nixos#$(hostname) -L";
   };
+
   shellInit = ''
     string_heap() {
       pid=$1

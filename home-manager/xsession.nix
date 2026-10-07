@@ -20,9 +20,6 @@ let
       ${config.programs.alacritty.package}/bin/alacritty \
         --working-directory ${pkgs.lib.escapeShellArg "${config.home.homeDirectory}/nixos"} &
     fi
-    if ! has_window TelegramDesktop; then
-      ${pkgs-master.telegram-desktop}/bin/Telegram &
-    fi
     if ! has_window Google-chrome; then
       ${pkgs-master.google-chrome}/bin/google-chrome-stable --restore-last-session &
     fi
@@ -40,7 +37,7 @@ let
         video_restored=true
       fi
       if [ "$focus_restored" = false ] && has_window code && has_window Alacritty \
-        && has_window Google-chrome && has_window TelegramDesktop; then
+        && has_window Google-chrome; then
         i3-msg 'workspace --no-auto-back-and-forth "2:Code"; [class="^code$"] focus' >/dev/null
         focus_restored=true
       fi
@@ -105,24 +102,6 @@ let
         fi
   '';
 
-  open-tg = pkgs.writeShellScriptBin "OpenTG.sh" ''
-    window_id=$(${pkgs.i3}/bin/i3-msg -t get_tree \
-      | ${pkgs.jq}/bin/jq '.nodes[] | .. | select(.window_properties?.class? == "TelegramDesktop") | .id')
-    echo "window_id: $window_id"
-
-    if [ -z "$(${pkgs.procps}/bin/pidof Telegram)" ]; then
-      ${pkgs.telegram-desktop}/bin/Telegram &
-    else
-      window_output=$(${pkgs.i3}/bin/i3-msg -t get_tree \
-        | ${pkgs.jq}/bin/jq -r '.nodes[] | .. | select(.window_properties?.class? == "TelegramDesktop") | .output')
-
-      if [ "$window_output" != "__i3" ]; then
-        ${pkgs.i3}/bin/i3-msg "[con_id=$window_id] move scratchpad"
-      else
-        ${pkgs.i3}/bin/i3-msg "[con_id=$window_id] scratchpad show"
-      fi
-    fi
-  '';
 in
 {
   home.packages =
@@ -135,7 +114,6 @@ in
     ++ [
       pass-rofi
       translate-notify
-      open-tg
     ];
 
   services = {
@@ -177,10 +155,6 @@ in
         {
           criteria.class = "^Chatzone$";
           command = "border none";
-        }
-        {
-          criteria.class = "^TelegramDesktop$";
-          command = "floating enable, resize set 1910 px 1620 px, move position 960 px 251 px, move scratchpad";
         }
         {
           criteria.class = "(?i)^blueman-manager$";
@@ -231,7 +205,6 @@ in
           "${mod}+Return" = "exec alacritty";
           "${mod}+b" = "exec --no-startup-id ${toggle-bluetooth}/bin/toggle-bluetooth";
           "Mod1+e" = "exec --no-startup-id ${translate-notify}/bin/translate-notify";
-          "${mod}+t" = "exec --no-startup-id ${open-tg}/bin/OpenTG.sh";
           #"Mod1+w --release" = "exec /home/alex/scripts/cb 2&>1 /tmp/cb.log";
           "control+Mod1+l" = "exec --no-startup-id ${pkgs.i3lock-fancy-rapid}/bin/i3lock-fancy-rapid 15 20";
           "${mod}+q" = "exec --no-startup-id clipcat-menu";
