@@ -43,6 +43,7 @@
             inputs.disko.nixosModules.disko
             ./disk-home.nix
             ./configuration-home.nix
+            inputs.sops-nix.nixosModules.sops
             inputs.home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;

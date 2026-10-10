@@ -97,6 +97,54 @@
     useDHCP = false;
     firewall.enable = false;
     interfaces.enp13s0.useDHCP = true;
+    networkmanager = {
+      enable = true;
+      unmanaged = [ "interface-name:enp13s0" ];
+      ensureProfiles = {
+        environmentFiles = [ config.sops.templates."wifi.env".path ];
+        profiles.home-wifi = {
+          connection = {
+            id = "home-wifi";
+            type = "wifi";
+            interface-name = "wlp14s0";
+            autoconnect = true;
+          };
+          wifi = {
+            mode = "infrastructure";
+            ssid = "rm -rf /* 5GHz";
+          };
+          wifi-security = {
+            key-mgmt = "wpa-psk";
+            psk = "$WIFI_PSK";
+          };
+          ipv4.method = "auto";
+          ipv6.method = "auto";
+        };
+      };
+    };
+  };
+
+  sops = {
+    useSystemdActivation = true;
+    age = {
+      keyFile = "/home/alex/.config/sops/age/wifi-home.txt";
+      sshKeyPaths = [ ];
+    };
+    gnupg.sshKeyPaths = [ ];
+    secrets.wifi_psk = {
+      sopsFile = ./secrets/wifi.yaml;
+      mode = "0400";
+    };
+    templates."wifi.env" = {
+      content = "WIFI_PSK=${config.sops.placeholder.wifi_psk}\n";
+      mode = "0400";
+      restartUnits = [ "NetworkManager-ensure-profiles.service" ];
+    };
+  };
+
+  systemd.services.NetworkManager-ensure-profiles = {
+    after = [ "sops-install-secrets.service" ];
+    requires = [ "sops-install-secrets.service" ];
   };
 
   systemd.network.links."10-enp13s0" = {

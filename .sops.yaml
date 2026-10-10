@@ -2,6 +2,12 @@ keys:
   - &alex A12A7532A32DF8DCFD391AC87E9400C4F7763DE6
 
 creation_rules:
+  - path_regex: ^secrets/wifi\.yaml$
+    key_groups:
+      - pgp:
+          - *alex
+        age:
+          - age1nt2k0z4tn8mhmr0fg5rhleheqas7kut05ut7spt5eljr0ft4pg5qc3vy0a
   - path_regex: ^secrets/.*\.(yaml|json)$
     key_groups:
       - pgp:

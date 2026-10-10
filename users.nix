@@ -14,6 +14,7 @@
 
   users.users.alex = {
     isNormalUser = true;
+    linger = true;
     extraGroups = [
       "wheel"
       "docker"
