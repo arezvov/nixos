@@ -29,6 +29,7 @@ in
   environment.systemPackages = with pkgs; [
     android-tools
     wget
+    nmap
     libguestfs-with-appliance
     vim
     pkgs-master.telegram-desktop
@@ -147,6 +148,7 @@ in
     openttd
     # pkgs-master.minikube
     kubectl
+    kubelogin-oidc
     # kubernetes-helm
     pkgs-master.argocd
     fwupd
@@ -161,6 +163,7 @@ in
     ctop
     rr
     zsh
+    vault
     pkgs-master.terraform
     pkgs-master.opentofu
     pkgs-master.terragrunt
