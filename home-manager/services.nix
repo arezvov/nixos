@@ -20,7 +20,13 @@
     clipmenu.enable = false;
     clipcat = {
       enable = true;
-      package = pkgs-master.clipcat;
+      package = pkgs-master.clipcat.overrideAttrs (old: {
+        postPatch = (old.postPatch or "") + ''
+          # Rust 1.99 removed this lint; the check is now a hard error.
+          substituteInPlace Cargo.toml \
+            --replace-fail 'no_mangle_generic_items                 = "deny"' ""
+        '';
+      });
       enableZshIntegration = false;
       daemonSettings = builtins.fromTOML (builtins.readFile ./clipcatd.toml);
       menuSettings.finder = "rofi";

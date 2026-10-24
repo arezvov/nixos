@@ -1,53 +1,6 @@
 { config, pkgs, pkgs-master, ... }:
 
 let
-  # Snapshot: DP-4 has browser, code, terminal and work; DP-2 has video.
-  restore-session = pkgs.writeShellScriptBin "restore-desktop-session" ''
-    set -euo pipefail
-    export PATH=${pkgs.lib.makeBinPath [ pkgs.i3 pkgs.jq pkgs.coreutils ]}:"$PATH"
-
-    has_window() {
-      i3-msg -t get_tree | jq -e --arg class "$1" \
-        'any(.. | objects; .window_properties.class? == $class)' >/dev/null
-    }
-
-    # Run only on a fresh i3 login, not on config reload or i3 restart.
-    i3-msg 'workspace --no-auto-back-and-forth "10:Video"; workspace --no-auto-back-and-forth "2:Code"; layout tabbed' >/dev/null
-    if ! has_window code; then
-      ${pkgs-master.vscode-fhs}/bin/code ${pkgs.lib.escapeShellArg "${config.home.homeDirectory}/nixos"} &
-    fi
-    if ! has_window Alacritty; then
-      ${config.programs.alacritty.package}/bin/alacritty \
-        --working-directory ${pkgs.lib.escapeShellArg "${config.home.homeDirectory}/nixos"} &
-    fi
-    if ! has_window Google-chrome; then
-      ${pkgs-master.google-chrome}/bin/google-chrome-stable --restore-last-session &
-    fi
-
-    # Chrome windows share WM_CLASS. Identify the saved video window once its
-    # restored tab has loaded; don't move windows on later tab/title changes.
-    video_restored=false
-    focus_restored=false
-    for attempt in $(seq 1 60); do
-      video_id=$(i3-msg -t get_tree | jq -r '
-        first(.. | objects | select(.window_properties.class? == "Google-chrome")
-          | select(.window_properties.title? // "" | contains("YouTube")) | .id) // empty')
-      if [ "$video_restored" = false ] && [ -n "$video_id" ]; then
-        i3-msg "[con_id=$video_id] move container to workspace \"10:Video\"" >/dev/null
-        video_restored=true
-      fi
-      if [ "$focus_restored" = false ] && has_window code && has_window Alacritty \
-        && has_window Google-chrome; then
-        i3-msg 'workspace --no-auto-back-and-forth "2:Code"; [class="^code$"] focus' >/dev/null
-        focus_restored=true
-      fi
-      if [ "$video_restored" = true ] && [ "$focus_restored" = true ]; then
-        break
-      fi
-      sleep 1
-    done
-  '';
-
   toggle-bluetooth = pkgs.writeShellScriptBin "toggle-bluetooth" ''
     set -euo pipefail
 
@@ -204,8 +157,6 @@ in
             "exec --no-startup-id ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
           "${mod}+Return" = "exec alacritty";
           "${mod}+b" = "exec --no-startup-id ${toggle-bluetooth}/bin/toggle-bluetooth";
-          "Mod1+e" = "exec --no-startup-id ${translate-notify}/bin/translate-notify";
-          #"Mod1+w --release" = "exec /home/alex/scripts/cb 2&>1 /tmp/cb.log";
           "control+Mod1+l" = "exec --no-startup-id ${pkgs.i3lock-fancy-rapid}/bin/i3lock-fancy-rapid 15 20";
           "${mod}+q" = "exec --no-startup-id clipcat-menu";
           #"${mod}+q" = "exec CM_HISTLENGTH=30 clipmenu -i -fn Terminus:size=10 -nb '#002b36' -nf '#839496' -sb '#073642' -sf '#93a1a1'";
@@ -308,10 +259,6 @@ in
       terminal = "alacritty";
       workspaceAutoBackAndForth = true;
       startup = [
-        {
-          command = "${restore-session}/bin/restore-desktop-session";
-          notification = false;
-        }
         {
           # Set the cursor used over empty workspace areas.
           command = "${pkgs.xsetroot}/bin/xsetroot -cursor_name left_ptr";

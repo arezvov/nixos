@@ -12,6 +12,20 @@
 {
   nixpkgs.config.allowUnfree = true;
 
+  nix.settings = {
+    max-jobs = 2;
+    cores = 2;
+  };
+
+  # Keep builds and store downloads from saturating the system disk.
+  # Limit IOPS as well as bandwidth to cover small-file workloads.
+  systemd.services.nix-daemon.serviceConfig = {
+    IOReadBandwidthMax = "/nix 40M";
+    IOWriteBandwidthMax = "/nix 20M";
+    IOReadIOPSMax = "/nix 1000";
+    IOWriteIOPSMax = "/nix 200";
+  };
+
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration-home.nix
@@ -94,6 +108,7 @@
 
   networking = {
     hostName = "home";
+    hosts."176.114.90.53" = [ "pages.momdev.ru" ];
     useDHCP = false;
     firewall.enable = false;
     interfaces.enp13s0.useDHCP = true;
