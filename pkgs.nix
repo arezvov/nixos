@@ -35,6 +35,9 @@ in
     pkgs-master.telegram-desktop
     pkgs-master.chatzone-desktop
     obsidian
+    (pkgs-master.wrapHelm pkgs-master.kubernetes-helm {
+      plugins = [ pkgs-master.kubernetes-helmPlugins.helm-diff ];
+    })
     pkgs-master.throne
     pkgs-master.vscode-fhs
     pkgs-master.prismlauncher
@@ -53,7 +56,6 @@ in
     ltrace
     sysbench
     thunderbird
-    libreoffice
     dzen2
     sshfs
     libidn2
@@ -197,7 +199,7 @@ in
     fpm
     uv
     ruff
-    codex
+    pkgs-master.codex
   ];
   fonts.packages = with pkgs; [
     jetbrains-mono
