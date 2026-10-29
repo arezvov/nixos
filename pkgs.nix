@@ -29,6 +29,7 @@ in
   environment.systemPackages = with pkgs; [
     android-tools
     wget
+    ripgrep
     nmap
     libguestfs-with-appliance
     vim
