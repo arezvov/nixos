@@ -30,8 +30,9 @@ in
     android-tools
     wget
     ripgrep
+    cloc
     nmap
-    libguestfs-with-appliance
+    # libguestfs-with-appliance
     vim
     pkgs-master.telegram-desktop
     pkgs-master.chatzone-desktop

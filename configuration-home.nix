@@ -52,7 +52,6 @@
     # Track the latest stable kernel available in the pinned nixpkgs.
     kernelPackages = pkgs.linuxPackages_latest;
     extraModulePackages = with config.boot.kernelPackages; [
-      sysdig
       tmon
     ];
     kernel.sysctl = {

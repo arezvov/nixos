@@ -118,7 +118,6 @@ in
       assigns = {
         "1:Browser" = [ { class = "^Google-chrome$"; window_role = "^browser$"; } ];
         "2:Code" = [ { class = "^code$"; } ];
-        "3:Terminal" = [ { class = "^Alacritty$"; } ];
         "8:Work" = [ { class = "^Chatzone$"; } ];
       };
 
